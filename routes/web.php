@@ -1,0 +1,202 @@
+<?php
+
+use App\Http\Controllers\BarangayController;
+use App\Http\Controllers\CaptureImageController;
+use App\Http\Controllers\CardLayoutController;
+use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\DynamicController;
+use App\Http\Controllers\MapController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PrintController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ScanlogController;
+use App\Http\Controllers\ScannerController;
+use App\Http\Controllers\UploadController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoterController;
+use App\Livewire\AccountLivewire;
+use App\Livewire\ActiveVoterLivewire;
+use App\Livewire\BarangayLivewire;
+use App\Livewire\Camera\ImageCapture;
+use App\Livewire\DashboardLivewire;
+use App\Livewire\DesignationLivewire;
+use App\Livewire\Faction\VoterFactionLivewire;
+use App\Livewire\LogsLivewire;
+use App\Livewire\OrganizationLivewire;
+use App\Livewire\Printqr\PrintQrLivewire;
+use App\Livewire\Report\ReportLivewire;
+use App\Livewire\Scan\QrCodeScanner;
+use App\Livewire\Upload\UploadCardLayout;
+use App\Livewire\Upload\UploadVoters;
+use App\Livewire\ValidatorLivewire;
+use App\Livewire\VoterAnalytic;
+use App\Livewire\VoterDesignationLivewire;
+use App\Livewire\VoterLivewire;
+use App\Livewire\VoterOrganizationLivewire;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return redirect('login');
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+
+    Route::get('system/welcome', [PageController::class, 'index'])->name('system-welcome');
+
+    Route::get('system/admin', DashboardLivewire::class)->name('system-dashboard')->middleware(['isAdminEncoder']);
+    // Voters
+    Route::get('system/admin/voters', VoterLivewire::class)->name('system-admin-voters')->middleware(['isAdminEncoder']);
+    // Active Voters
+    Route::get('system/admin/active-voters', ActiveVoterLivewire::class)->name('system-admin-active-voters')->middleware(['isAdmin']);
+    // Designation
+    Route::get('system/admin/designations', DesignationLivewire::class)->name('system-admin-designation')->middleware(['isAdminEncoder']);
+    // Organization
+    Route::get('system/admin/organizations', OrganizationLivewire::class)->name('system-admin-organization')->middleware(['isAdminEncoder']);
+    // Account
+    Route::get('system/admin/account', AccountLivewire::class)->name('system-admin-accounts')->middleware(['isAdmin']);;
+    // Logs
+    Route::get('system/admin/logs', LogsLivewire::class)->name('system-admin-logs')->middleware(['isAdmin']);
+
+    // Barangay
+    Route::get('system/admin/barangay/list', BarangayLivewire::class)->name('system-admin-barangay-list')->middleware(['isAdminEncoder']);
+    Route::get('admin/barangay/create', [BarangayController::class, 'create'])->name('admin-barangay-create')->middleware(['isAdmin']);
+    Route::post('admin/barangay/add', [BarangayController::class, 'store'])->name('admin-barangay-add')->middleware(['isAdmin']);
+    Route::get('admin/barangay/edit/{barangay}', [BarangayController::class, 'edit'])->name('admin-barangay-edit')->middleware(['isAdmin']);
+    Route::post('admin/barangay/update/{barangay}', [BarangayController::class, 'update'])->name('admin-barangay-update')->middleware(['isAdmin']);
+
+    Route::get('/api/barangays', [BarangayController::class, 'getBarangays']);
+
+
+
+
+    // Voter Designation
+    Route::get('system/admin/voter-designations/{voter}', VoterDesignationLivewire::class)->name('system-admin-voter-designation')->middleware(['isAdminEncoder']);
+    // Voter Organization
+    Route::get('system/admin/voter-organizations/{voter}', VoterOrganizationLivewire::class)->name('system-admin-voter-organization')->middleware(['isAdminEncoder']);
+
+
+
+
+    // Qr Printing
+    // Route::get('system/admin/print-voter-qr', PrintQrLivewire::class)->name('system-admin-print-voter-qr')->middleware(['isAdminEncoder']);
+
+
+
+    // Report Printing
+    Route::get(
+        'system/admin/reports',
+        [
+            ReportController::class,
+            'index'
+        ]
+    )->name('system-admin-reports')->middleware(['isAdminEncoder']);
+
+    Route::post(
+        'system/admin/generate-reports',
+        [
+            ReportController::class,
+            'initialize'
+        ]
+    )->name('system-admin-generate-reports')->middleware(['isAdminEncoder']);
+
+
+
+    // Validator
+    Route::get('system/validator/barangay-voter-list', ValidatorLivewire::class)->name('system-validator-barangay-voter-list')->middleware(['isAdminValidator']);
+
+
+    // Upload Card File Format
+    Route::get(
+        'system/admin/upload-cardfile',
+        UploadCardLayout::class
+    )->name('system-admin-upload-cardfile')->middleware(['isAdminEncoder']);
+
+
+    // Voter Faction
+    Route::get(
+        'system/admin/voter-faction',
+        VoterFactionLivewire::class
+    )->name('system-admin-voter-faction')->middleware(['isAdmin']);
+
+
+
+    // Qr Code Scanner
+    Route::get(
+        'system/admin/qr-code-scanner',
+        QrCodeScanner::class
+    )->name('system-admin-qr-code-scanner')->middleware(['isAdmin']);
+
+    // Analytics
+    Route::get(
+        'system/admin/barangay/voter/analytics',
+        VoterAnalytic::class
+    )->name('system-admin-barangay-voter-analytics')->middleware(['isAdmin']);
+
+
+
+
+
+
+    // Controllers here...
+
+    Route::get('admin/scanner', [ScannerController::class, 'index'])->name('admin-scanner')->middleware(['isAdminScanner']);
+    Route::post('admin/scanner-result', [ScannerController::class, 'show'])->name('admin-scanner-result')->middleware(['isAdminScanner']);
+
+    Route::get('system/validator/capture-image/{voter}', [CaptureImageController::class, 'showCamera'])->name('system-validator-capture-image')->middleware(['isAdminValidator']);
+
+    Route::post('system/validator/save-capture-image/{voter}', [CaptureImageController::class, 'updateVoterImage'])->name('system-validator-save-capture-image')->middleware(['isAdminValidator']);
+
+    Route::get('system/admin/print-voter-qr', [PrintController::class, 'index'])->name('system-admin-print-voter-qr')->middleware(['isAdminEncoder']);
+    Route::post('system/admin/generate-qr', [PrintController::class, 'print'])->name('system-admin-generate-qr')->middleware(['isAdminEncoder']);
+
+    Route::post('system/admin/dynamic-subtype', [DynamicController::class, 'getSubType'])->name('system-admin-dynamic-subtype')->middleware(['isAdminEncoder']);
+
+    Route::get('system/admin/voters/create', [VoterController::class, 'create'])->name('system-admin-voters-create')->middleware(['isAdminEncoder']);
+
+    Route::post('system/admin/voters/create-add', [VoterController::class, 'store'])->name('system-admin-voters-create-add')->middleware(['isAdminEncoder']);
+
+    Route::get('system/admin/voters/edit/{voter}', [VoterController::class, 'edit'])->name('system-admin-voters-edit')->middleware(['isAdminEncoder']);
+
+    Route::post('system/admin/voters/update/{voter}', [VoterController::class, 'update'])->name('system-admin-voters-update')->middleware(['isAdminEncoder']);
+
+    // Upload
+    Route::get('system/admin/uploadfiles', [UploadController::class, 'index'])->name('system-admin-upload-voters')->middleware(['isAdminEncoder']);
+    Route::post('system/admin/uploadfiles', [UploadController::class, 'upload'])->name('system-admin-uploadfiles')->middleware(['isAdminEncoder']);
+
+
+    // Download
+    Route::get('system/admin/downloadformat', [DownloadController::class, 'index'])->name('system-admin-download-format')->middleware(['isAdminEncoder']);
+    Route::post('system/admin/downloadformat', [DownloadController::class, 'download'])->name('system-admin-download-format')->middleware(['isAdminEncoder']);
+
+
+    // Card Desgin Upload
+    Route::get('system/admin/uploadcard', [CardLayoutController::class, 'index'])->name('system-admin-upload-card')->middleware(['isAdminEncoder']);
+    Route::post('system/admin/storecard', [CardLayoutController::class, 'store'])->name('system-admin-store-card')->middleware(['isAdminEncoder']);
+
+
+    // Scanlogs
+    Route::get('system/admin/qr/scanlogs', [ScanlogController::class, 'index'])->name('system-admin-qr-scanlogs')->middleware(['isAdmin']);
+
+
+    // Map
+    Route::get('system/admin/map/bayambang', [MapController::class, 'index'])->name('system-admin-map-bayambang')->middleware(['isAdmin']);
+
+
+    // Map
+    Route::get('system/admin/account/change-password', [UserController::class, 'changePasswordView'])->name('system-admin-account-change-password');
+    Route::post('system/admin/account/change-password', [UserController::class, 'changePassword'])->name('system-admin-account-change-password');
+
+
+    // Organizations
+    Route::get('system/admin/voter/organization/create', [OrganizationController::class, 'create'])->name('system-admin-voter-organization-create');
+    Route::post('system/admin/voter/organization/create', [OrganizationController::class, 'store'])->name('system-admin-voter-organization-create');
+
+    Route::get('system/admin/voter/organization/edit/{organization}', [OrganizationController::class, 'edit'])->name('system-admin-voter-organization-edit');
+    Route::post('system/admin/voter/organization/edit/{organization}', [OrganizationController::class, 'update'])->name('system-admin-voter-organization-edit');
+});
