@@ -1,4 +1,41 @@
 <x-app-layout>
+
+    @if(auth()->user()->role == "Super Admin")
+
+    <h2 class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-600 md:text-2xl dark:text-white">Welcome, System Admin!</h2>
+    <p class="mb-3 text-gray-500 dark:text-gray-400">We are thrilled to welcome you on board as the Administrator of the system. As the Admin, you are entrusted with the highest level of access and control over all system features and functionalities. This role places you at the heart of the platform's operation, giving you the authority and responsibility to manage, monitor, and optimize every aspect of the system.</p>
+
+    <p class="mb-3 text-gray-500 dark:text-gray-400">Your duties will include overseeing the overall health and performance of the platform, ensuring that it runs efficiently, securely, and reliably. You'll be responsible for configuring and maintaining key system settings, managing user roles and permissions, and troubleshooting issues to ensure smooth, uninterrupted service. Your expertise will play a critical role in the detection and mitigation of security risks, safeguarding the integrity of the platform and the data within it.</p>
+
+    <p class="mb-3 text-gray-500 dark:text-gray-400">In addition to system management, you will be tasked with staying up-to-date with platform updates, enhancements, and new features, ensuring that the system evolves to meet both current and future needs. Your role is vital not only in maintaining operational excellence but also in fostering a secure and user-friendly environment for everyone who relies on the platform.</p>
+
+    <p class="mb-3 text-gray-500 dark:text-gray-400">As the Administrator, you will have access to powerful tools and resources that enable you to make informed decisions and implement best practices in system administration. Your leadership will help guide the platform toward its highest potential, ensuring it remains a trusted and reliable resource for all users. Your contribution is key to the ongoing success and growth of the system, and we look forward to the impact you will make in this important role.</p>
+
+    <br>
+
+    <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Top function:</h2>
+    <ol class="max-w space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
+        <li>
+            <span class="font-semibold text-gray-900 dark:text-white">User Management: </span> Add, update, or remove users and assign roles to control who can access various sections of the system.
+        </li>
+        <li>
+            <span class="font-semibold text-gray-900 dark:text-white">Data Security:</span> Monitor user access, enforce security protocols, and ensure that sensitive data is protected.
+        </li>
+        <li>
+            <span class="font-semibold text-gray-900 dark:text-white">Analytics & Reports:</span> View and analyze system logs, user activity, and generate performance reports to ensure smooth operation.
+        </li>
+        <li>
+            <span class="font-semibold text-gray-900 dark:text-white">Troubleshooting & Support:</span> Resolve any system issues, assist users with their queries, and ensure that the platform is always performing at its best.
+        </li>
+    </ol>
+
+    <br>
+
+    <p class="mb-3 mt-3 text-gray-500 dark:text-gray-400">Your actions help ensure that our system runs seamlessly for all users, and your decisions have a direct impact on the system's functionality and performance. If you need assistance, support documentation and a team of experts are always here to help. We trust that you’ll guide the system with care and expertise.</p>
+
+    @endif
+
+
     @if(auth()->user()->role == "Admin")
 
     <h2 class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-600 md:text-2xl dark:text-white">Welcome, Admin!</h2>

@@ -5,6 +5,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AdminScannerMiddleware;
 use App\Http\Middleware\AdminValidatorMiddleware;
 use App\Http\Middleware\EncoderMiddleware;
+use App\Http\Middleware\SuperAdminMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,7 +23,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'isAdmin' => AdminMiddleware::class,
             'isAdminEncoder' => AdminEncoderMiddleware::class,
             'isAdminValidator' => AdminValidatorMiddleware::class,
-            'isAdminScanner' => AdminScannerMiddleware::class
+            'isAdminScanner' => AdminScannerMiddleware::class,
+
+            'isSuperAdmin' => SuperAdminMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

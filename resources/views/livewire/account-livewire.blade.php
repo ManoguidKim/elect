@@ -64,14 +64,23 @@
         </div>
 
         <div class="fw-full">
+
             <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">User Role</label>
             <select name="role" class="mb-2 bg-gray-50 border border-blue-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter First Name" wire:model="role">
+                @if (auth()->user()->role == 'Super Admin')
+                <option value="">Select User Role</option>
+                <option value="Super Admin">Super Admin</option>
+                <option value="Admin">Admin</option>
+                <option value="Encoder">Encoder</option>
+                <option value="Validator">Validator</option>
+                <option value="Scanner">Scanner</option>
+                @else
                 <option value="">Select User Role</option>
                 <option value="Admin">Admin</option>
                 <option value="Encoder">Encoder</option>
                 <option value="Validator">Validator</option>
                 <option value="Scanner">Scanner</option>
-                <option value="Survey">Survey</option>
+                @endif
             </select>
 
             @error('role')

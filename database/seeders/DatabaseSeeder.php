@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Kim M. Manoguid',
                 'email' => 'manoguid@gmail.com',
-                'role' => 'Admin'
+                'role' => 'Super Admin'
             ]
         );
 

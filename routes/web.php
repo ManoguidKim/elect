@@ -12,6 +12,8 @@ use App\Http\Controllers\PrintController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ScanlogController;
 use App\Http\Controllers\ScannerController;
+use App\Http\Controllers\systemadmin\DistrictController;
+use App\Http\Controllers\systemadmin\MunicipalityController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoterController;
@@ -46,6 +48,40 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
+
+
+    // System Admin Route
+    Route::get('admin', DashboardLivewire::class)->name('admin-dashboard')->middleware(['isSuperAdmin']);
+
+
+
+    Route::get('admin/manage/district', [DistrictController::class, 'index'])->name('admin-manage-district')->middleware(['isSuperAdmin']);
+    Route::get('admin/manage/district/create', [DistrictController::class, 'create'])->name('admin-manage-district-create')->middleware(['isSuperAdmin']);
+    Route::post('admin/manage/district/create', [DistrictController::class, 'store'])->name('admin-manage-district-create')->middleware(['isSuperAdmin']);
+    Route::get('admin/manage/district/edit/{district}', [DistrictController::class, 'edit'])->name('admin-manage-district-edit')->middleware(['isSuperAdmin']);
+    Route::post('admin/manage/district/edit/{district}', [DistrictController::class, 'update'])->name('admin-manage-district-edit')->middleware(['isSuperAdmin']);
+    Route::post('admin/manage/district/destroy', [DistrictController::class, 'destroy'])->name('admin-manage-district-destroy')->middleware(['isSuperAdmin']);
+
+
+
+    Route::get('admin/manage/municipality', [MunicipalityController::class, 'index'])->name('admin-manage-municipality')->middleware(['isSuperAdmin']);
+    Route::get('admin/manage/municipality/create', [MunicipalityController::class, 'create'])->name('admin-manage-municipality-create')->middleware(['isSuperAdmin']);
+    Route::post('admin/manage/municipality/create', [MunicipalityController::class, 'store'])->name('admin-manage-municipality-create')->middleware(['isSuperAdmin']);
+    Route::get('admin/manage/municipality/edit/{municipality}', [MunicipalityController::class, 'edit'])->name('admin-manage-municipality-edit')->middleware(['isSuperAdmin']);
+    Route::post('admin/manage/municipality/edit/{municipality}', [MunicipalityController::class, 'update'])->name('admin-manage-municipality-edit')->middleware(['isSuperAdmin']);
+    Route::post('admin/manage/municipality/destroy', [MunicipalityController::class, 'destroy'])->name('admin-manage-municipality-destroy')->middleware(['isSuperAdmin']);
+
+
+
+    // End System Admin Routes
+
+
+
+
+
+
+
 
     Route::get('system/welcome', [PageController::class, 'index'])->name('system-welcome');
 
