@@ -144,7 +144,7 @@
                     </button>
                     <ul id="manage-dropdown" class="hidden py-2 space-y-2">
                         <li>
-                            <a href="{{ route('system-admin-voters') }}"
+                            <a href="{{ route('system-admin-accounts') }}"
                                 class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-sm">Users</a>
                         </li>
                         <li>

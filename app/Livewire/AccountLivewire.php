@@ -9,7 +9,18 @@ use Livewire\Component;
 
 class AccountLivewire extends Component
 {
-    public $name = "", $email = "", $password = "", $role = "", $barangay = "", $account_id;
+    public $name;
+    public $email;
+    public $password;
+    public $role;
+    public $barangay;
+    public $municipality;
+
+    public $barangayData = [];
+    public $municipalityData = [];
+
+    public $account_id;
+
     public $search = '';
 
     protected $rules = [
@@ -22,13 +33,31 @@ class AccountLivewire extends Component
 
     public function render()
     {
-        $users = User::select('users.name', 'users.email', 'users.role', 'barangays.name as barangay_name')
-            ->leftjoin('barangays', 'barangays.id', '=', 'users.barangay_id')
-            ->where('users.name', 'like', '%' . $this->search . '%')
-            ->orWhere('users.role', 'like', '%' . $this->search . '%')
-            ->orWhere('users.email', 'like', '%' . $this->search . '%')
-            ->orderBy('users.id', 'desc')
-            ->paginate(50);
+        if (auth()->user()->role == "Admin") {
+            $users = User::select('users.id', 'users.name', 'users.email', 'users.role', 'barangays.name as barangay_name', 'municipalities.name as municipality_name')
+                ->leftJoin('municipalities', 'municipalities.id', '=', 'users.municipality_id')
+                ->leftJoin('barangays', 'barangays.id', '=', 'users.barangay_id')
+                ->where('users.municipality_id', auth()->user()->municipality_id)  // Filter by the same municipality as the admin
+                ->where(function ($query) {
+                    $query->where('users.name', 'like', '%' . $this->search . '%')
+                        ->orWhere('users.role', 'like', '%' . $this->search . '%')
+                        ->orWhere('users.email', 'like', '%' . $this->search . '%');
+                })
+                ->orderBy('users.id', 'desc')
+                ->paginate(50);
+        } else {
+            $users = User::select('users.id', 'users.name', 'users.email', 'users.role', 'barangays.name as barangay_name', 'municipalities.name as municipality_name')
+                ->leftJoin('municipalities', 'municipalities.id', '=', 'users.municipality_id')
+                ->leftJoin('barangays', 'barangays.id', '=', 'users.barangay_id')
+                ->where(function ($query) {
+                    $query->where('users.name', 'like', '%' . $this->search . '%')
+                        ->orWhere('users.role', 'like', '%' . $this->search . '%')
+                        ->orWhere('users.email', 'like', '%' . $this->search . '%');
+                })
+                ->orderBy('users.id', 'desc')
+                ->paginate(50);
+        }
+
 
         $barangays = Barangay::all();
 
@@ -43,7 +72,7 @@ class AccountLivewire extends Component
 
     public function createUser()
     {
-        $this->authorize('createUser', User::class);
+        // $this->authorize('createUser', User::class);
         $this->validate();
 
         User::create([
@@ -60,7 +89,7 @@ class AccountLivewire extends Component
 
     public function deleteUser(User $user)
     {
-        $this->authorize('deleteUser', User::class);
+        // $this->authorize('deleteUser', User::class);
         $user->delete();
 
         session()->flash('message', 'User deleted successfully');

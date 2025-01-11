@@ -50,6 +50,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'municipality_id',
         'barangay_id',
         'role'
     ];

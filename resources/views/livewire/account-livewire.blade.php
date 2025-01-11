@@ -1,5 +1,4 @@
 <div>
-
     <nav class="flex mb-4" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3 rtl:space-x-reverse">
             <li class="inline-flex items-center">
@@ -34,79 +33,17 @@
     @endif
 
     <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">User Account Management</h3>
-    <div class="p-4 mb-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-        <p class="text-sm text-gray-500 dark:text-gray-400">User management refers to the process of creating, managing, and organizing user accounts and permissions within a system or application. It involves tasks such as user registration, authentication, authorization, profile management, and ensuring secure access to resources. Effective user management ensures that only authorized individuals can access specific features, improving both security and user experience.</p>
+    <div class="p-4 mb-3 rounded-lg bg-green-50 border border-dashed dark:bg-gray-800">
+        <p class="text-sm text-gray-500 dark:text-gray-400 italic">User management refers to the process of creating, managing, and organizing user accounts and permissions within a system or application. It involves tasks such as user registration, authentication, authorization, profile management, and ensuring secure access to resources. Effective user management ensures that only authorized individuals can access specific features, improving both security and user experience.</p>
     </div>
 
-    <div class="grid grid-cols-3 gap-4 mb-4">
-
-        <div class="w-full">
-
-            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-            <input type="text" name="name" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2" placeholder="Enter Name" wire:model="name" />
-            @error('name')
-            <span class="text-red-400">Name required</span>
-            @enderror
-        </div>
-
-        <div class="fw-full">
-            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-            <input type="email" name="email" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2" placeholder="Enter Valid Email Address" wire:model="email" />
-            @error('email')
-            <span class="text-red-400">Email required</span>
-            @enderror
-
-            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-            <input type="password" name="password" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Last Name" wire:model="password" />
-            @error('password')
-            <span class="text-red-400">Password required</span>
-            @enderror
-        </div>
-
-        <div class="fw-full">
-
-            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">User Role</label>
-            <select name="role" class="mb-2 bg-gray-50 border border-blue-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter First Name" wire:model="role">
-                @if (auth()->user()->role == 'Super Admin')
-                <option value="">Select User Role</option>
-                <option value="Super Admin">Super Admin</option>
-                <option value="Admin">Admin</option>
-                <option value="Encoder">Encoder</option>
-                <option value="Validator">Validator</option>
-                <option value="Scanner">Scanner</option>
-                @else
-                <option value="">Select User Role</option>
-                <option value="Admin">Admin</option>
-                <option value="Encoder">Encoder</option>
-                <option value="Validator">Validator</option>
-                <option value="Scanner">Scanner</option>
-                @endif
-            </select>
-
-            @error('role')
-            <span class="text-red-400">Role required</span>
-            @enderror
-
-            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Barangay</label>
-            <select name="barangay" class="bg-gray-50 border border-blue-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter First Name" wire:model="barangay">
-                <option value="">Select Barangay</option>
-                @foreach ($barangays as $barangay)
-                <option value="{{ $barangay->id }}">{{ $barangay->name }}</option>
-                @endforeach
-            </select>
-
-            @error('barangay')
-            <span class="text-red-400">Barangay required</span>
-            @enderror
-        </div>
-    </div>
 
     <div class="relative overflow-x-auto sm:rounded-lg p-1">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
             <div>
-                <button class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click.prevent="createUser">
+                <a href="{{ route('system-admin-user-create') }}" class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                     Create New Account
-                </button>
+                </a>
             </div>
             <label for="table-search" class="sr-only">Search</label>
             <div class="relative">
@@ -122,13 +59,13 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        #
-                    </th>
-                    <th scope="col" class="px-6 py-3">
                         User Name
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Email
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Municipality
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Barangay
@@ -144,19 +81,24 @@
             <tbody>
                 @foreach($users as $user)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="px-6 py-2">{{ $loop->iteration }}</td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white uppercase">{{ $user->name }}</th>
                     <td class="px-6 py-2">{{ $user->email }}</td>
+
+                    @if ($user->municipality_name != "")
+                    <td class="px-6 py-2">Assigned barangay : {{ $user->municipality_name }}</td>
+                    @else
+                    <td class="px-6 py-2 italic text-red-400">(No assigned municipality)</td>
+                    @endif
+
                     @if ($user->barangay_name != "")
                     <td class="px-6 py-2">Assigned barangay : {{ $user->barangay_name }}</td>
                     @else
-                    <td class="px-6 py-2"></td>
+                    <td class="px-6 py-2 italic text-red-400">(No assigned barangay)</td>
                     @endif
                     <td class="px-6 py-2">{{ $user->role }}</td>
                     <td class="px-6 py-2">
 
-                        <button class="inline-flex items-center text-gray-500 bg-red-200 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="deleteUser({{ $user->id }})" wire:confirm="Are you sure you want to delete?">
-                            {{ $loop->iteration }} : Delete
+                        <button class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="deleteUser({{ $user->id }})" wire:confirm="Are you sure you want to delete?">Delete
                         </button>
 
                     </td>

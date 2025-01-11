@@ -5,6 +5,7 @@ namespace App\Http\Controllers\systemadmin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\systemadmin\AddMunicipalityRequest;
 use App\Http\Requests\systemadmin\UpdateMunicipalityRequest;
+use App\Models\Barangay;
 use App\Models\District;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
@@ -65,5 +66,16 @@ class MunicipalityController extends Controller
     {
         $municipality->delete();
         return redirect()->route('admin-manage-municipality')->with('message', 'Municipality deleted successfully.');
+    }
+
+
+    // Method to get Barangays based on Municipality
+    public function getBarangays(Request $request)
+    {
+        if ($request->ajax()) {
+            // Retrieve Barangays based on the Municipality ID
+            $barangays = Barangay::where('municipality_id', $request->municipality_id)->get();
+            return response()->json($barangays);
+        }
     }
 }

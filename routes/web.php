@@ -72,6 +72,8 @@ Route::middleware([
     Route::post('admin/manage/municipality/edit/{municipality}', [MunicipalityController::class, 'update'])->name('admin-manage-municipality-edit')->middleware(['isSuperAdmin']);
     Route::get('admin/manage/municipality/destroy/{municipality}', [MunicipalityController::class, 'destroy'])->name('admin-manage-municipality-destroy')->middleware(['isSuperAdmin']);
 
+    Route::get('/get-barangays', [MunicipalityController::class, 'getBarangays'])->name('get.barangays');
+
 
 
     // End System Admin Routes
@@ -95,7 +97,7 @@ Route::middleware([
     // Organization
     Route::get('system/admin/organizations', OrganizationLivewire::class)->name('system-admin-organization')->middleware(['isAdminEncoder']);
     // Account
-    Route::get('system/admin/account', AccountLivewire::class)->name('system-admin-accounts')->middleware(['isAdmin']);;
+    Route::get('system/admin/user', AccountLivewire::class)->name('system-admin-accounts')->middleware(['isSuperAdminAdmin']);;
     // Logs
     Route::get('system/admin/logs', LogsLivewire::class)->name('system-admin-logs')->middleware(['isAdmin']);
 
@@ -235,4 +237,9 @@ Route::middleware([
 
     Route::get('system/admin/voter/organization/edit/{organization}', [OrganizationController::class, 'edit'])->name('system-admin-voter-organization-edit');
     Route::post('system/admin/voter/organization/edit/{organization}', [OrganizationController::class, 'update'])->name('system-admin-voter-organization-edit');
+
+
+    // User
+    Route::get('system/admin/user/create', [UserController::class, 'create'])->name('system-admin-user-create')->middleware(['isSuperAdminAdmin']);
+    Route::post('system/admin/user/create', [UserController::class, 'store'])->name('system-admin-user-create')->middleware(['isSuperAdminAdmin']);
 });
