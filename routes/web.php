@@ -61,7 +61,7 @@ Route::middleware([
     Route::post('admin/manage/district/create', [DistrictController::class, 'store'])->name('admin-manage-district-create')->middleware(['isSuperAdmin']);
     Route::get('admin/manage/district/edit/{district}', [DistrictController::class, 'edit'])->name('admin-manage-district-edit')->middleware(['isSuperAdmin']);
     Route::post('admin/manage/district/edit/{district}', [DistrictController::class, 'update'])->name('admin-manage-district-edit')->middleware(['isSuperAdmin']);
-    Route::post('admin/manage/district/destroy', [DistrictController::class, 'destroy'])->name('admin-manage-district-destroy')->middleware(['isSuperAdmin']);
+    Route::get('admin/manage/district/destroy/{district}', [DistrictController::class, 'destroy'])->name('admin-manage-district-destroy')->middleware(['isSuperAdmin']);
 
 
 
@@ -70,7 +70,7 @@ Route::middleware([
     Route::post('admin/manage/municipality/create', [MunicipalityController::class, 'store'])->name('admin-manage-municipality-create')->middleware(['isSuperAdmin']);
     Route::get('admin/manage/municipality/edit/{municipality}', [MunicipalityController::class, 'edit'])->name('admin-manage-municipality-edit')->middleware(['isSuperAdmin']);
     Route::post('admin/manage/municipality/edit/{municipality}', [MunicipalityController::class, 'update'])->name('admin-manage-municipality-edit')->middleware(['isSuperAdmin']);
-    Route::post('admin/manage/municipality/destroy', [MunicipalityController::class, 'destroy'])->name('admin-manage-municipality-destroy')->middleware(['isSuperAdmin']);
+    Route::get('admin/manage/municipality/destroy/{municipality}', [MunicipalityController::class, 'destroy'])->name('admin-manage-municipality-destroy')->middleware(['isSuperAdmin']);
 
 
 
