@@ -17,11 +17,9 @@ class BarangayController extends Controller
 
     public function store(AddBarangayRequest $request)
     {
-
         $arr = [
             'name' => $request->barangay,
-            'lat' => $request->lat,
-            'long' => $request->long,
+            'municipality_id' => auth()->user()->municipality_id
         ];
 
         Barangay::create($arr);
@@ -36,11 +34,9 @@ class BarangayController extends Controller
 
     public function update(UpdateBarangayRequest $request, Barangay $barangay)
     {
-
         $arr = [
             'name' => $request->barangay,
-            'lat' => $request->lat,
-            'long' => $request->long,
+            'municipality_id' => auth()->user()->municipality_id
         ];
 
         $barangayData = Barangay::findOrFail($barangay->id);
@@ -53,7 +49,7 @@ class BarangayController extends Controller
 
     public function getBarangays()
     {
-        $voterFactions = Voter::select('barangays.name', 'barangays.lat', 'barangays.long')
+        $voterFactions = Voter::select('barangays.name')
 
             // Get the count of allies, opponents, and undecided voters
             ->selectRaw('COUNT(voters.id) as total_voters')
@@ -62,13 +58,15 @@ class BarangayController extends Controller
             ->selectRaw('SUM(voters.remarks = "undecided") as undecided_count')
 
             // Join with barangays table
+            ->join('municipalities', 'municipalities.id', '=', 'voters.municipality_id')
             ->join('barangays', 'barangays.id', '=', 'voters.barangay_id')
 
             // Filter for active voters and search condition
             ->where('voters.status', 'Active')
+            ->where('voters.municipality_id', auth()->user()->municipality_id)
 
             // Group by barangay name
-            ->groupBy('barangays.name', 'barangays.lat', 'barangays.long')
+            ->groupBy('barangays.name')
 
             // Order by barangay name
             ->orderBy('barangays.name', 'asc')

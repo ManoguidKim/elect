@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barangay;
+use App\Models\Municipality;
 use App\Models\Voter;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,13 @@ class MapController extends Controller
      */
     public function index()
     {
-        return view('map.index');
+        if (auth()->user()->role == "Admin") {
+            $municipality = Municipality::where('id', auth()->user()->municipality_id)->first()->name;
+            return view('map.index', [
+                'municipality' => $municipality
+            ]);
+        } else {
+        }
     }
 
     /**

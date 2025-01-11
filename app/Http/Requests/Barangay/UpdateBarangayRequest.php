@@ -23,9 +23,7 @@ class UpdateBarangayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'barangay' => 'required|string',
-            'lat' => 'nullable|numeric',
-            'long' => 'nullable|numeric'
+            'barangay' => 'required|string'
         ];
     }
 
@@ -33,9 +31,7 @@ class UpdateBarangayRequest extends FormRequest
     {
         return [
             'barangay.required' => 'The barangay field is required.',
-            'barangay.string' => 'The barangay field must be a valid string.',
-            'lat.numeric' => 'The latitude must be a valid number, including decimals.',
-            'long.numeric' => 'The longitude must be a valid number, including decimals.'
+            'barangay.string' => 'The barangay field must be a valid string.'
         ];
     }
 }

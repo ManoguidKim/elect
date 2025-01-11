@@ -30,14 +30,27 @@ class UserController extends Controller
     public function store(AddUserRequest $request)
     {
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-            'barangay_id' => $request->barangay,
-            'municipality_id' => $request->municipality,
-        ]);
+        if (auth()->user()->role == "Admin") {
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+                'barangay_id' => $request->barangay,
+                'municipality_id' => auth()->user()->municipality_id,
+            ]);
+        } else {
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+                'barangay_id' => $request->barangay,
+                'municipality_id' => $request->municipality,
+            ]);
+        }
+
+
 
         return redirect()->route('system-admin-accounts')->with('status', 'New user has been added');
     }
@@ -49,12 +62,11 @@ class UserController extends Controller
 
     public function changePassword(ChangepasswordRequest $request)
     {
-        // Update the user's password
+
         $user = Auth::user();
         $user->password = Hash::make($request->password);
         $user->save();
 
-        // Regenerate the session to prevent session fixation attacks
         Session::invalidate();
         Session::regenerate();
 

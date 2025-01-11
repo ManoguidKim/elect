@@ -23,7 +23,7 @@ class VoterController extends Controller
      */
     public function create()
     {
-        $barangays = Barangay::all();
+        $barangays = Barangay::where('municipality_id', auth()->user()->municipality_id)->get();
         return view(
             'voter.create',
             [
@@ -46,6 +46,7 @@ class VoterController extends Controller
                     'suffix' => $request->validated()['suffix'],
                     'dob' => $request->validated()['dob'],
                     'gender' => $request->validated()['gender'],
+                    'municipality_id' => auth()->user()->municipality_id,
                     'barangay_id' => $request->validated()['barangay'],
                     'precinct_no' => $request->validated()['precinct_no'],
                     'remarks' => "Undecided"
@@ -102,6 +103,7 @@ class VoterController extends Controller
                 'suffix' => $request->validated()['suffix'],
                 'dob' => $request->validated()['dob'],
                 'gender' => $request->validated()['gender'],
+                'municipality_id' => auth()->user()->municipality_id,
                 'barangay_id' => $request->validated()['barangay'],
                 'precinct_no' => $request->validated()['precinct_no'],
                 'remarks' => $request->validated()['remarks']

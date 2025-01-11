@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <nav class="flex mb-4" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3 rtl:space-x-reverse">
             <li class="inline-flex items-center">
@@ -32,36 +31,58 @@
     <script>
         let map;
         let geocoder;
+        let curAddress;
 
         function initMap() {
-
+            // Initialize geocoder
             geocoder = new google.maps.Geocoder();
-            var latlng = new google.maps.LatLng(15.80992, 120.45646);
-            var mapOptions = {
-                zoom: 13,
-                center: latlng,
-                scrollwheel: false,
-                disableDoubleClickZoom: true
-            }
-            map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-            fetch('/api/barangays')
-                .then((response) => response.json())
-                .then((barangayNames) => {
-                    console.log(barangayNames);
-                    for (let i = 0; i < barangayNames.length; i++) {
-                        geocodeBarangay(barangayNames[i]);
-                    }
-                })
-                .catch((error) => console.error('Error fetching barangay data:', error));
+            // Pass the PHP variable $municipality into JavaScript
+            var municipality = <?php echo json_encode($municipality); ?>;
+
+            // Concatenate the municipality with the rest of the address
+            curAddress = municipality + ", La Union, Philippines";
+
+            // Geocode the address
+            geocoder.geocode({
+                'address': curAddress
+            }, function(results, status) {
+                if (status === 'OK') {
+                    // Get the coordinates (lat, lng)
+                    var lat = results[0].geometry.location.lat();
+                    var lng = results[0].geometry.location.lng();
+
+                    // Initialize the map with the geocoded coordinates
+                    var latlng = new google.maps.LatLng(lat, lng);
+                    var mapOptions = {
+                        zoom: 15,
+                        center: latlng,
+                        scrollwheel: false,
+                        disableDoubleClickZoom: true
+                    };
+                    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+                    // Fetch and geocode barangay data
+                    fetch('/api/barangays')
+                        .then((response) => response.json())
+                        .then((barangayNames) => {
+                            for (let i = 0; i < barangayNames.length; i++) {
+                                geocodeBarangay(barangayNames[i]);
+                            }
+                        })
+                        .catch((error) => console.error('Error fetching barangay data:', error));
+
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
         }
 
         function geocodeBarangay(props) {
             geocoder.geocode({
-                address: props.name + ", Bayambang, Pangasinan, Philippines"
+                address: props.name + ", " + curAddress
             }, function(results, status) {
-
-                if (status == "OK") {
+                if (status === "OK") {
                     // Calculate if 15% of total voters are opponents
                     const fifteenPercentOpponents = (props.total_voters * 0.15) <= props.opponent_percentage;
 

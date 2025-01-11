@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('mname', 100)->nullable();
             $table->string('lname', 100)->nullable();
             $table->string('suffix', 100)->nullable();
+            $table->foreignId('municipality_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('barangay_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('precinct_no', 100)->nullable();
             $table->string('gender', 100)->nullable();

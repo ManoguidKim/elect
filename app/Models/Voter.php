@@ -48,6 +48,7 @@ class Voter extends Model
         'suffix',
         'precinct_no',
         'barangay_id',
+        'municipality_id',
         'gender',
         'dob',
         'remarks',

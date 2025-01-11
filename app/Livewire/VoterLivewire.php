@@ -64,6 +64,7 @@ class VoterLivewire extends Component
             DB::raw('GROUP_CONCAT(DISTINCT organizations.name SEPARATOR ", ") as voter_organizations'),
             DB::raw('GROUP_CONCAT(DISTINCT designations.name SEPARATOR ", ") as voter_designations')
         )
+            ->join('municipalities', 'municipalities.id', '=', 'voters.municipality_id')
             ->join('barangays', 'barangays.id', '=', 'voters.barangay_id')
             ->leftJoin('voter_organizations', 'voter_organizations.voter_id', '=', 'voters.id')
             ->leftJoin('organizations', 'organizations.id', '=', 'voter_organizations.organization_id')
