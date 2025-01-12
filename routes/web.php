@@ -109,6 +109,7 @@ Route::middleware([
     Route::post('admin/barangay/update/{barangay}', [BarangayController::class, 'update'])->name('admin-barangay-update')->middleware(['isAdmin']);
 
     Route::get('/api/barangays', [BarangayController::class, 'getBarangays']);
+    Route::get('/api/municipalities', [MunicipalityController::class, 'getMunicipalities']);
 
 
 
@@ -223,12 +224,16 @@ Route::middleware([
 
 
     // Map
-    Route::get('system/admin/map/bayambang', [MapController::class, 'index'])->name('system-admin-map-bayambang')->middleware(['isAdmin']);
+    Route::get('system/admin/map/', [MapController::class, 'index'])->name('system-admin-map-bayambang')->middleware(['isAdmin']);
+    // System Admin Map
+    Route::get('system/admin/map/province', [MapController::class, 'province_map'])->name('system-admin-map-provice')->middleware(['isSuperAdmin']);
 
 
-    // Map
+    // Change Password
     Route::get('system/admin/account/change-password', [UserController::class, 'changePasswordView'])->name('system-admin-account-change-password');
     Route::post('system/admin/account/change-password', [UserController::class, 'changePassword'])->name('system-admin-account-change-password');
+
+
 
 
     // Organizations
