@@ -44,7 +44,7 @@ class VoterDesignationLivewire extends Component
 
     public function render()
     {
-        $this->designations = Designation::all();
+        $this->designations = Designation::where('municipality_id', auth()->user()->municipality_id)->get();;
 
         $this->voterDesignations = VoterDesignation::select(
             'designations.name',

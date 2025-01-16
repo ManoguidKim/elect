@@ -12,6 +12,7 @@ use App\Http\Controllers\PrintController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ScanlogController;
 use App\Http\Controllers\ScannerController;
+use App\Http\Controllers\systemadmin\DashboardController;
 use App\Http\Controllers\systemadmin\DistrictController;
 use App\Http\Controllers\systemadmin\MunicipalityController;
 use App\Http\Controllers\UploadController;
@@ -175,7 +176,7 @@ Route::middleware([
     Route::get(
         'system/admin/barangay/voter/analytics',
         VoterAnalytic::class
-    )->name('system-admin-barangay-voter-analytics')->middleware(['isAdmin']);
+    )->name('system-admin-barangay-voter-analytics')->middleware(['isSuperAdminAdmin']);
 
 
 
@@ -247,4 +248,19 @@ Route::middleware([
     // User
     Route::get('system/admin/user/create', [UserController::class, 'create'])->name('system-admin-user-create')->middleware(['isSuperAdminAdmin']);
     Route::post('system/admin/user/create', [UserController::class, 'store'])->name('system-admin-user-create')->middleware(['isSuperAdminAdmin']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // System Admin
+    Route::get('system/admin/dashbord', [DashboardController::class, 'index'])->name('system-admin-dashboard-show')->middleware(['isSuperAdmin']);
 });

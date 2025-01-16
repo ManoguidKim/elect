@@ -17,7 +17,8 @@ class OrganizationController extends Controller
     public function store(AddOrganizationRequest $request)
     {
         $arr = [
-            'name' => $request->organization
+            'name' => $request->organization,
+            'municipality_id' => auth()->user()->municipality_id
         ];
 
         Organization::create($arr);

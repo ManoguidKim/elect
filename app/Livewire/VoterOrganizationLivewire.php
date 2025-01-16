@@ -39,7 +39,7 @@ class VoterOrganizationLivewire extends Component
 
     public function render()
     {
-        $this->organizations = Organization::all();
+        $this->organizations = Organization::where('municipality_id', auth()->user()->municipality_id)->get();
 
         $this->voterOrganizations = VoterOrganization::select(
             'organizations.name',

@@ -58,7 +58,7 @@ class ActiveVoterLivewire extends Component
 
             ->paginate(100);
 
-        $barangays = Barangay::all();
+        $barangays = Barangay::where('municipality_id', auth()->user()->municipality_id)->get();
 
         return
             view(

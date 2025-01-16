@@ -31,7 +31,8 @@ class DesignationLivewire extends Component
 
         $this->validate();
         Designation::create([
-            'name' => $this->designation
+            'name' => $this->designation,
+            'municipality_id' => auth()->user()->municipality_id
         ]);
 
         session()->flash('message', 'Designation created successfully');

@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class CardLayout extends Model
 {
-    protected $fillable = ['image_path'];
+    protected $fillable = ['image_path', 'municipality_id'];
 }

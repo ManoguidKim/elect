@@ -38,7 +38,6 @@
         <p class="text-sm text-gray-500 dark:text-gray-400">Refers to the number of registered voters in each barangay, which is the smallest administrative division in the Philippines. This data helps electoral authorities manage and organize elections efficiently by allocating resources, setting up polling stations, and ensuring voter accessibility. The number of voters in each barangay varies, depending on the population size and voter registration in that area. It is a key factor in ensuring fair and orderly elections at the local level.</p>
     </div>
 
-
     <form action="{{ route('system-admin-generate-reports') }}" method="post" target="_blank">
         @csrf
         <div class="grid gap-4 mb-6 md:grid-cols-4">

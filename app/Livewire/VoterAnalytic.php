@@ -11,38 +11,76 @@ class VoterAnalytic extends Component
 
     public function render()
     {
-        $voterFactions = Voter::select('barangays.name')
+        $voterFactions = [];
+        if (auth()->user()->role == 'Admin') {
+            $voterFactions = Voter::select('barangays.name')
+                // Get the count of total voters and the count for each category
+                ->selectRaw('COUNT(voters.id) as total_voters')
+                ->selectRaw('SUM(voters.remarks = "ally") as ally_count')
+                ->selectRaw('SUM(voters.remarks = "opponent") as opponent_count')
+                ->selectRaw('SUM(voters.remarks = "undecided") as undecided_count')
 
-            // Get the count of allies, opponents, and undecided voters
-            ->selectRaw('COUNT(voters.id) as total_voters')
-            ->selectRaw('SUM(voters.remarks = "ally") as ally_count')
-            ->selectRaw('SUM(voters.remarks = "opponent") as opponent_count')
-            ->selectRaw('SUM(voters.remarks = "undecided") as undecided_count')
+                // Join with barangays table
+                ->join('barangays', 'barangays.id', '=', 'voters.barangay_id')
 
-            // Join with barangays table
-            ->join('barangays', 'barangays.id', '=', 'voters.barangay_id')
+                // Filter for active voters and search condition
+                ->where('voters.status', 'Active')
+                ->where('barangays.name', 'like', '%' . $this->search . '%')
+                ->where('voters.municipality_id', auth()->user()->municipality_id)
 
-            // Filter for active voters and search condition
-            ->where('voters.status', 'Active')
-            ->where('barangays.name', 'like', '%' . $this->search . '%')
+                // Group by barangay name
+                ->groupBy('barangays.name')
 
-            // Group by barangay name
-            ->groupBy('barangays.name')
+                // Order by barangay name
+                ->orderBy('barangays.name', 'asc')
+                ->get();
 
-            // Order by barangay name
-            ->orderBy('barangays.name', 'asc')
-            ->get();
+            $voterFactions = $voterFactions->map(function ($barangay) {
+                // Total number of voters in the barangay
+                $totalVoters = $barangay->total_voters;
 
-        $voterFactions = $voterFactions->map(function ($barangay) {
-            $totalVoters = $barangay->total_voters;
+                // Calculate the percentage for each category
+                $barangay->ally_percentage = $totalVoters ? round(($barangay->ally_count / $totalVoters) * 100, 2) : 0;
+                $barangay->opponent_percentage = $totalVoters ? round(($barangay->opponent_count / $totalVoters) * 100, 2) : 0;
+                $barangay->undecided_percentage = $totalVoters ? round(($barangay->undecided_count / $totalVoters) * 100, 2) : 0;
 
-            // Calculate the percentage for each category
-            $barangay->ally_percentage = $totalVoters ? round(($barangay->ally_count / $totalVoters) * 100, 2) : 0;
-            $barangay->opponent_percentage = $totalVoters ? round(($barangay->opponent_count / $totalVoters) * 100, 2) : 0;
-            $barangay->undecided_percentage = $totalVoters ? round(($barangay->undecided_count / $totalVoters) * 100, 2) : 0;
+                return $barangay;
+            });
+        } else {
 
-            return $barangay;
-        });
+            $voterFactions = Voter::select('municipalities.name')
+
+                // Get the count of allies, opponents, and undecided voters
+                ->selectRaw('COUNT(voters.id) as total_voters')
+                ->selectRaw('SUM(voters.remarks = "ally") as ally_count')
+                ->selectRaw('SUM(voters.remarks = "opponent") as opponent_count')
+                ->selectRaw('SUM(voters.remarks = "undecided") as undecided_count')
+
+                // Join with barangays table
+                ->join('municipalities', 'municipalities.id', '=', 'voters.municipality_id')
+
+                // Filter for active voters and search condition
+                ->where('voters.status', 'Active')
+                ->where('municipalities.name', 'like', '%' . $this->search . '%')
+
+                // Group by barangay name
+                ->groupBy('municipalities.name')
+
+                // Order by barangay name
+                ->orderBy('municipalities.name', 'asc')
+                ->get();
+
+            $voterFactions = $voterFactions->map(function ($municipality) {
+                $totalVoters = $municipality->total_voters;
+
+                // Calculate the percentage for each category
+                $municipality->ally_percentage = $totalVoters ? round(($municipality->ally_count / $totalVoters) * 100, 2) : 0;
+                $municipality->opponent_percentage = $totalVoters ? round(($municipality->opponent_count / $totalVoters) * 100, 2) : 0;
+                $municipality->undecided_percentage = $totalVoters ? round(($municipality->undecided_count / $totalVoters) * 100, 2) : 0;
+
+                return $municipality;
+            });
+        }
 
         return
             view(

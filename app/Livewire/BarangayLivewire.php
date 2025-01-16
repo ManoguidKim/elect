@@ -72,7 +72,8 @@ class BarangayLivewire extends Component
 
     public function render()
     {
-        $barangays = Barangay::where('name', 'like', '%' . $this->search . '%')
+        $barangays = Barangay::where('municipality_id', auth()->user()->municipality_id)
+            ->where('name', 'like', '%' . $this->search . '%')
             ->orWhere('name', 'like', '%' . $this->search . '%')
             ->paginate(50);
 

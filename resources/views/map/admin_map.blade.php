@@ -79,12 +79,14 @@
 
                     // Info window content
                     const infoWindow = new google.maps.InfoWindow({
-                        content: `<h1>${props.name}</h1> <br>
+                        content: `<h1>${props.municipality_name}</h1> <br>
                         <strong>Total Voters: ${props.total_voters}</strong>
                         <br><br>
                         <strong>Ally Percentage: ${props.ally_percentage}</strong><br>
                         <strong>Opponent Percentage: ${props.opponent_percentage}</strong><br>
-                        <strong>Undecided Percentage: ${props.undecided_percentage}</strong>
+                        <strong>Undecided Percentage: ${props.undecided_percentage}</strong><br><br>
+                        <button >Click to view details</button>
+
                         `,
                     });
 

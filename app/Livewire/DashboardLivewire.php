@@ -12,17 +12,19 @@ class DashboardLivewire extends Component
     public function render()
     {
 
-        $activeVoter = Voter::where(['status' => 'Active'])->count();
-        $voterTaggedAlly = Voter::where(['status' => 'Active', 'remarks' => 'Ally'])->count();
-        $voterTaggedOpponent = Voter::where(['status' => 'Active', 'remarks' => 'Opponent'])->count();
-        $voterTaggedUndecided = Voter::where(['status' => 'Active', 'remarks' => 'Undecided'])->count();
+        $activeVoter = Voter::where(['status' => 'Active', 'municipality_id' => auth()->user()->municipality_id])->count();
+        $voterTaggedAlly = Voter::where(['status' => 'Active', 'remarks' => 'Ally', 'municipality_id' => auth()->user()->municipality_id])->count();
+        $voterTaggedOpponent = Voter::where(['status' => 'Active', 'remarks' => 'Opponent', 'municipality_id' => auth()->user()->municipality_id])->count();
+        $voterTaggedUndecided = Voter::where(['status' => 'Active', 'remarks' => 'Undecided', 'municipality_id' => auth()->user()->municipality_id])->count();
 
         // Gender
         $voterGenderBracket = Voter::selectRaw("
             SUM(CASE WHEN gender = 'male' THEN 1 ELSE 0 END) as male_count,
             SUM(CASE WHEN gender = 'female' THEN 1 ELSE 0 END) as female_count,
             SUM(CASE WHEN gender != 'female' AND gender != 'male' THEN 1 ELSE 0 END) as other_gender_count
-        ")->first();
+        ")
+            ->where('municipality_id', auth()->user()->municipality_id)
+            ->first();
 
         // Age Bracket
         $voterAgeBracket = Voter::select(
@@ -31,6 +33,7 @@ class DashboardLivewire extends Component
             DB::raw('SUM(CASE WHEN TIMESTAMPDIFF(YEAR, dob, CURDATE()) BETWEEN 50 AND 64 THEN 1 ELSE 0 END) as older_age'),
             DB::raw('SUM(CASE WHEN TIMESTAMPDIFF(YEAR, dob, CURDATE()) >= 65 THEN 1 ELSE 0 END) as senior')
         )
+            ->where('municipality_id', auth()->user()->municipality_id)
             ->first();
 
         // Faction
@@ -39,6 +42,7 @@ class DashboardLivewire extends Component
             SUM(CASE WHEN remarks = 'Opponent' THEN 1 ELSE 0 END) as opponent_count,
             SUM(CASE WHEN remarks = 'Undecided' THEN 1 ELSE 0 END) as undecided_count
         ")
+            ->where('municipality_id', auth()->user()->municipality_id)
             ->where('status', 'Active')
             ->first();
 
@@ -49,6 +53,7 @@ class DashboardLivewire extends Component
         SUM(CASE WHEN voters.status = 'Active' THEN 1 ELSE 0 END) as active_voter
     ")
             ->join('barangays', 'voters.barangay_id', '=', 'barangays.id')
+            ->where('voters.municipality_id', auth()->user()->municipality_id)
             ->groupBy('barangays.name')
             ->orderBy('barangays.name')
             ->get();

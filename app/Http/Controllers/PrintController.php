@@ -16,7 +16,7 @@ class PrintController extends Controller
      */
     public function index()
     {
-        $barangays = Barangay::all();
+        $barangays = Barangay::where('municipality_id', auth()->user()->municipality_id)->get();
         return view(
             'print.index',
             [
@@ -31,7 +31,7 @@ class PrintController extends Controller
         $type                   = $request->input('type');
         $sub_type               = $request->input('sub_type');
 
-        $cardLayout             = CardLayout::first()->image_path;
+        $cardLayout             = CardLayout::where('municipality_id', auth()->user()->municipality_id)->first()->image_path;
 
         if ($type == "Active Voter of Organization") {
 
@@ -49,6 +49,8 @@ class PrintController extends Controller
             )
                 ->join('voter_organizations', 'voter_organizations.voter_id', '=', 'voters.id')
                 ->join('organizations', 'organizations.id', '=', 'voter_organizations.organization_id')
+
+                ->where('voters.municipality_id', auth()->user()->municipality_id)
                 ->where('voters.barangay', $barangay)
                 ->where('voters.status', 'Active');
 
@@ -76,6 +78,8 @@ class PrintController extends Controller
             )
                 ->join('voter_designations', 'voter_designations.voter_id', '=', 'voters.id')
                 ->join('designations', 'designations.id', '=', 'voter_designations.organization_id')
+
+                ->where('voters.municipality_id', auth()->user()->municipality_id)
                 ->where('voters.barangay', $barangay)
                 ->where('voters.status', 'Active');
 
@@ -89,6 +93,7 @@ class PrintController extends Controller
             return view('print.qr', compact('voters', 'cardLayout'));
         } else {
             $voters = Voter::where('barangay_id', $barangay)
+                ->where('municipality_id', auth()->user()->municipality_id)
                 ->orderBy('lname')
                 ->get();
 
