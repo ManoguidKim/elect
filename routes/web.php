@@ -263,4 +263,6 @@ Route::middleware([
 
     // System Admin
     Route::get('system/admin/dashbord', [DashboardController::class, 'index'])->name('system-admin-dashboard-show')->middleware(['isSuperAdmin']);
+    Route::get('system/admin/dashbord/totalvoter', [DashboardController::class, 'totalVoter'])->name('system-admin-dashboard-totalvoter')->middleware(['isSuperAdmin']);
+    Route::get('system/admin/dashbord/voterfaction', [DashboardController::class, 'voterFaction'])->name('system-admin-dashboard-voterfaction')->middleware(['isSuperAdmin']);
 });

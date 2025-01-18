@@ -22,9 +22,9 @@
             <div class="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
                 <div>
                     <h2 class="lg:text-5xl text-4xl font-extrabold lg:leading-[55px] text-gray-800">
-                        Election Support Monitoring System
+                        E-ELECT
                     </h2>
-                    <p class="text-sm mt-6 text-gray-800">is a digital tool designed to facilitate and streamline the process of monitoring elections. It assists in tracking election activities, voter data, election results, and incidents in real-time. The system ensures transparency, efficiency, and accountability by providing election officials, observers, and support teams with real-time updates and data on various election processes, voter turnout, and possible irregularities. This helps in preventing election-related issues and enhances the overall integrity of the election process.</p>
+                    <p class="text-sm mt-6 text-gray-800">E-LECT shall digitize the process to give you near real-time progress monitoring of your campaign and streamline facilitation of assistance where they are needed. Among its features include QR-based identification for faster implementation of assistance to beneficiaries and integration with Google Maps for geolocation-based reporting.</p>
                 </div>
 
                 <form method="POST" action="{{ route('login') }}" class="max-w-md md:ml-auto w-full">

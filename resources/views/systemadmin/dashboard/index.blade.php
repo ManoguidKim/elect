@@ -37,5 +37,63 @@
         <p class="text-sm text-gray-500 dark:text-gray-400 italic">This is the dashboard where you can view visual representations of various data, including the total number of active voters, the number of voters per municipalities, and bar graphs displaying voter distribution across municipalities. It also provides insights into the gender distribution of active voters, showing the number of males and females, as well as the age brackets of the voters.</p>
     </div>
 
+    <!-- Card Section -->
+
+    <!-- Card Data -->
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div class="w-full">
+            <div class="max-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
+                <div class="flex-1">
+                    <a href="#">
+                        <h6 class="mb-2 text-2xl font-semibold tracking-tight text-gray-600 dark:text-white">Total Active Voters ({{ number_format($totalActiveVoter) }})</h6>
+                    </a>
+                    <p class="mb-3 font-normal text-gray-500 dark:text-gray-400"></p>
+                    <a href="{{ route('system-admin-dashboard-totalvoter') }}" class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                        Click to view details
+                    </a>
+                </div>
+                <svg class="w-10 h-10 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H6Zm7.25-2.095c.478-.86.75-1.85.75-2.905a5.973 5.973 0 0 0-.75-2.906 4 4 0 1 1 0 5.811ZM15.466 20c.34-.588.535-1.271.535-2v-1a5.978 5.978 0 0 0-1.528-4H18a4 4 0 0 1 4 4v1a2 2 0 0 1-2 2h-4.535Z" clip-rule="evenodd" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="w-full">
+            <div class="max-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
+                <div class="flex-1">
+                    <a href="#">
+                        <h6 class="mb-2 text-xl font-semibold tracking-tight text-gray-600 dark:text-white">Voter Faction (Municipal Level Data) ({{ number_format(0) }})</h6>
+                    </a>
+                    <p class="mb-3 font-normal text-gray-500 dark:text-gray-400"></p>
+                    <a href="{{ route('system-admin-dashboard-voterfaction') }}" class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                        Click to view details
+                    </a>
+                </div>
+                <svg class="w-10 h-10 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H6Zm7.25-2.095c.478-.86.75-1.85.75-2.905a5.973 5.973 0 0 0-.75-2.906 4 4 0 1 1 0 5.811ZM15.466 20c.34-.588.535-1.271.535-2v-1a5.978 5.978 0 0 0-1.528-4H18a4 4 0 0 1 4 4v1a2 2 0 0 1-2 2h-4.535Z" clip-rule="evenodd" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="w-full">
+            <div class="max-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
+                <div class="flex-1">
+                    <a href="#">
+                        <h6 class="mb-2 text-2xl font-semibold tracking-tight text-gray-600 dark:text-white">Scanned QR ({{ 0 }})</h6>
+                    </a>
+                    <p class="mb-3 font-normal text-gray-500 dark:text-gray-400"></p>
+                    <a href="#" class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                        Click to view details
+                    </a>
+                </div>
+                <svg class="w-10 h-10 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 4h6v6H4V4Zm10 10h6v6h-6v-6Zm0-10h6v6h-6V4Zm-4 10h.01v.01H10V14Zm0 4h.01v.01H10V18Zm-3 2h.01v.01H7V20Zm0-4h.01v.01H7V16Zm-3 2h.01v.01H4V18Zm0-4h.01v.01H4V14Z" />
+                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M7 7h.01v.01H7V7Zm10 10h.01v.01H17V17Z" />
+                </svg>
+
+            </div>
+        </div>
+    </div>
+
 
 </x-app-layout>
