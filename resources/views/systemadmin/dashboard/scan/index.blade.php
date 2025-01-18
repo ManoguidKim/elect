@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <nav class="flex mb-4" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3 rtl:space-x-reverse">
             <li class="inline-flex items-center">
@@ -20,70 +21,57 @@
         </ol>
     </nav>
 
-    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">A chart displaying the counts of Ally, Opponent, and Undecided voters for each municipality.</h3>
+    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">A marker graph showing actual vs. expected QR code scans.</h3>
     <div class="p-4 mb-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-dashed">
-        <p class="text-sm text-gray-500 dark:text-gray-400 italic">This chart displays the distribution of "Ally," "Opponent," and "Undecided" voters across municipalities. Each municipality is shown on the x-axis, with three color-coded bars representing the voter counts for each category. The y-axis shows the total number of voters in each group, offering a clear comparison of voter preferences in each municipality.</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 italic">This marker graph compares the total actual QR code scans to the expected target, using distinct markers to highlight performance differences. It offers a clear visual representation of progress, helping to identify gaps and assess overall achievement against set goals. This graph is an effective tool for monitoring and improving scanning activities.</p>
     </div>
 
     <!-- Bar Graph -->
 
-    <div id="chart"></div>
+    <div id="chart" data-chart="{{ json_encode($chartData) }}"></div>
 
 
 </x-app-layout>
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
+    var chartData = JSON.parse(document.getElementById('chart').getAttribute('data-chart'));
+
     var options = {
         series: [{
-            name: 'Ally',
-            data: @json($ally_counts_datasets) // Ally counts from the controller
-        }, {
-            name: 'Opponent',
-            data: @json($opponent_counts_datasets) // Opponent counts from the controller
-        }, {
-            name: 'Undecided',
-            data: @json($undecided_counts_datasets) // Undecided counts from the controller
+            name: 'Actual',
+            data: chartData,
         }],
         chart: {
-            type: 'bar',
-            height: 350
+            height: 350,
+            type: 'bar'
         },
         plotOptions: {
             bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                borderRadius: 5,
-                borderRadiusApplication: 'end'
-            },
+                horizontal: true,
+            }
         },
+        colors: ['#00E396'],
         dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        xaxis: {
-            categories: @json($municipalities_datasets), // Municipality names from the controller
-        },
-        yaxis: {
-            title: {
-                text: 'Voter Count'
-            }
-        },
-        fill: {
-            opacity: 1
-        },
-        tooltip: {
-            y: {
-                formatter: function(val) {
-                    return val + " people"
+            formatter: function(val, opt) {
+                const goals =
+                    opt.w.config.series[opt.seriesIndex].data[opt.dataPointIndex]
+                    .goals
+
+                if (goals && goals.length) {
+                    return `${val} / ${goals[0].value}`
                 }
+                return val
             }
         },
-        colors: ['#28a745', '#dc3545', '#ffc107'] // Colors for Ally, Opponent, Undecided
+        legend: {
+            show: true,
+            showForSingleSeries: true,
+            customLegendItems: ['Actual', 'Expected'],
+            markers: {
+                fillColors: ['#00E396', '#775DD0']
+            }
+        }
     };
 
     var chart = new ApexCharts(document.querySelector("#chart"), options);
