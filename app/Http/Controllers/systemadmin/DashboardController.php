@@ -111,4 +111,33 @@ class DashboardController extends Controller
             'chartData' => $chartData,
         ]);
     }
+
+    public function encoderMonitoring()
+    {
+        $data = Voter::selectRaw("
+    DATE(voters.created_at) as date,
+    municipalities.name as municipality_name,
+    COUNT(*) as total_inputs
+")
+            ->join('municipalities', 'municipalities.id', '=', 'voters.municipality_id')
+            ->groupBy('date', 'municipality_name')
+            ->orderBy('date')
+            ->get();
+
+        $chartData = $data->groupBy('municipality_name')->map(function ($group, $key) {
+            return [
+                'name' => $key,
+                'data' => $group->map(function ($item) {
+                    return [
+                        'x' => $item->date,
+                        'y' => $item->total_inputs,
+                    ];
+                })->toArray(),
+            ];
+        })->values();
+
+        return view('systemadmin.dashboard.monitoring.index', [
+            'chartData' => $chartData->toArray(),
+        ]);
+    }
 }

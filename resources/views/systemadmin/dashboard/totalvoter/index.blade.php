@@ -54,7 +54,7 @@
         labels: <?php echo json_encode($municipalities_datasets) ?>,
         chart: {
             type: "bar",
-            height: "360px",
+            height: "600px",
             fontFamily: "Inter, sans-serif",
             toolbar: {
                 show: false,

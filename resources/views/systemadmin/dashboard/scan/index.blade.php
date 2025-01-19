@@ -51,7 +51,7 @@
                 horizontal: true,
             }
         },
-        colors: ['#00E396'],
+        colors: ['#4052d6'],
         dataLabels: {
             formatter: function(val, opt) {
                 const goals =
@@ -69,7 +69,7 @@
             showForSingleSeries: true,
             customLegendItems: ['Actual', 'Expected'],
             markers: {
-                fillColors: ['#00E396', '#775DD0']
+                fillColors: ['#4052d6', '#775DD0']
             }
         }
     };

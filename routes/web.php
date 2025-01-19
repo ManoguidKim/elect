@@ -266,4 +266,5 @@ Route::middleware([
     Route::get('system/admin/dashbord/totalvoter', [DashboardController::class, 'totalVoter'])->name('system-admin-dashboard-totalvoter')->middleware(['isSuperAdmin']);
     Route::get('system/admin/dashbord/voterfaction', [DashboardController::class, 'voterFaction'])->name('system-admin-dashboard-voterfaction')->middleware(['isSuperAdmin']);
     Route::get('system/admin/dashbord/totalscan', [DashboardController::class, 'totalScannedQr'])->name('system-admin-dashboard-totalscan')->middleware(['isSuperAdmin']);
+    Route::get('system/admin/dashbord/monitoring', [DashboardController::class, 'encoderMonitoring'])->name('system-admin-dashboard-monitoring')->middleware(['isSuperAdmin']);
 });
