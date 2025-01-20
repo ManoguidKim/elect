@@ -1,6 +1,4 @@
 <div>
-
-
     <nav class="flex mb-4" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3 rtl:space-x-reverse">
             <li class="inline-flex items-center">
@@ -50,68 +48,71 @@
                 <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" wire:model.live="search">
             </div>
         </div>
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-md">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Voter Details
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Side
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($voters as $voter)
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 uppercase">
-                    <th scope="row" class="flex items-center px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-md">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Voter Details
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Side
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($voters as $voter)
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 uppercase">
+                        <th scope="row" class="flex flex-col sm:flex-row items-center px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white">
+                            @can('update', $voter)
+                            <a href="{{ route('system-validator-capture-image', $voter->id) }}" class="flex-shrink-0">
+                                @if($voter->image_path == "")
+                                <img class="w-10 h-10 rounded-full" src="../../images/user.jpg" alt="Jese image">
+                                @else
+                                <img class="w-10 h-10 rounded-full" src="{{ asset('storage/' . $voter->image_path) }}">
+                                @endif
+                            </a>
+                            <div class="mt-3 sm:mt-0 sm:ml-3">
+                                <div class="text-base font-bold">{{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }}</div>
+                                <div class="font-bold text-gray-400">{{ 'Gender : ' . $voter->gender . ' - Date of birth : ' . date('F d, Y', strtotime($voter->dob)) }}</div>
+                                <div class="font-bold text-red-400">{{ 'Address : ' . $voter->name }}, Bayambang, Pangasinan</div>
+                            </div>
+                        </th>
 
-                        @can('update', $voter)
-                        <a href="{{ route('system-validator-capture-image', $voter->id) }}">
-                            @if($voter->image_path == "")
-                            <img class="w-10 h-10 rounded-full" src="../../images/user.jpg" alt="Jese image">
-                            @else
-                            <img class="w-10 h-10 rounded-full" src="{{ asset('storage/' . $voter->image_path) }}">
-                            @endif
-                        </a>
-                        <div class="ps-3">
-                            <div class="text-base font-bold">{{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }}</div>
-                            <div class="font-bold text-gray-400">{{ 'Gender : ' . $voter->gender . ' - Date of birth : . ' . date('F d, Y', strtotime($voter->dob)) }}</div>
-                            <div class="font-bold text-red-400">{{ 'Address : ' . $voter->name }}, Bayambang, Pangasinan</div>
-                        </div>
-                    </th>
+                        <th class="px-6 py-3">
+                            {{ $voter->remarks }}
+                        </th>
 
-                    <th>
-                        {{ $voter->remarks }}
-                    </th>
+                        <th class="px-6 py-3">
+                            <div class="flex flex-col space-y-2">
+                                @if($voter->remarks != "Ally")
+                                <button class="inline-flex items-center justify-center text-gray-500 bg-white border border-green-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="updateVoter({{ $voter->id }}, 'Ally')" wire:confirm="Are you sure you want to mark {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} as Ally?">
+                                    Tag as Ally
+                                </button>
+                                @endif
 
-                    <th>
-                        @if($voter->remarks != "Ally")
-                        <button class="inline-flex items-center text-gray-500 bg-white border border-green-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="updateVoter({{ $voter->id }}, 'Ally')" wire:confirm="Are you sure you want to mark {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} as Ally?">
-                            Tag as Ally
-                        </button>
-                        @endif
+                                @if($voter->remarks != "Opponent")
+                                <button class="inline-flex items-center justify-center text-gray-500 bg-white border border-red-400 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="updateVoter({{ $voter->id }}, 'Opponent')" wire:confirm="Are you sure you want to mark {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} as Opponent?">
+                                    Tag as Opponent
+                                </button>
+                                @endif
 
-                        @if($voter->remarks != "Opponent")
-                        <button class="inline-flex items-center text-gray-500 bg-white border border-red-400 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="updateVoter({{ $voter->id }}, 'Opponent')" wire:confirm="Are you sure you want to mark {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} as Opponent?">
-                            Tag as Opponent
-                        </button>
-                        @endif
+                                @if($voter->remarks != "Undecided")
+                                <button class="inline-flex items-center justify-center text-gray-500 bg-white border border-gray-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="updateVoter({{ $voter->id }}, 'Undecided')" wire:confirm="Are you sure you want to mark {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} as Undecided?">
+                                    Tag as Undecided
+                                </button>
+                                @endif
+                            </div>
+                        </th>
+                        @endcan
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-                        @if($voter->remarks != "Undecided")
-                        <button class="inline-flex items-center text-gray-500 bg-white border border-gray-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="updateVoter({{ $voter->id }}, 'Undecided')" wire:confirm="Are you sure you want to mark {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} as Undecided?">
-                            Tag as Undecided
-                        </button>
-                        @endif
-                    </th>
-
-                    @endcan
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
     </div>
 </div>

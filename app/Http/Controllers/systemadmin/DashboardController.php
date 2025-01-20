@@ -11,17 +11,8 @@ class DashboardController extends Controller
     public function index()
     {
         $totalActiveVoter = Voter::where('status', 'Active')->count();
-        return view(
-            'systemadmin.dashboard.index',
-            [
-                'totalActiveVoter' => $totalActiveVoter
-            ]
-        );
-    }
 
-    public function totalVoter()
-    {
-        // Active Voter Per Barangay
+        // Bar Graph voters per municipalities
         $voterPerMunicipality = Voter::selectRaw("
         municipalities.name, 
         SUM(CASE WHEN voters.status = 'Active' THEN 1 ELSE 0 END) as active_voter
@@ -34,17 +25,9 @@ class DashboardController extends Controller
         $municipalities = $voterPerMunicipality->pluck('name');
         $voterCounts = $voterPerMunicipality->pluck('active_voter');
 
-        return view(
-            'systemadmin.dashboard.totalvoter.index',
-            [
-                'municipalities_datasets' => $municipalities,
-                'votercounts_datasets' => $voterCounts,
-            ]
-        );
-    }
 
-    public function voterFaction()
-    {
+
+        // Bar Graph voter faction per municipalities
         $totalVoter = Voter::where('status', 'Active')->count();
         $voterPerMunicipality = Voter::selectRaw("
         municipalities.name, 
@@ -58,27 +41,18 @@ class DashboardController extends Controller
             ->get();
 
         // Prepare data for the chart
-        $municipalities = $voterPerMunicipality->pluck('name')->toArray();
+        $municipalities2 = $voterPerMunicipality->pluck('name')->toArray();
         $allyCounts = $voterPerMunicipality->pluck('ally_counts')->toArray();
         $opponentCounts = $voterPerMunicipality->pluck('opponent_counts')->toArray();
         $undecidedCounts = $voterPerMunicipality->pluck('undecided_counts')->toArray();
 
-        return view('systemadmin.dashboard.voterfaction.index', [
-            'municipalities_datasets' => $municipalities,
-            'ally_counts_datasets' => $allyCounts,
-            'opponent_counts_datasets' => $opponentCounts,
-            'undecided_counts_datasets' => $undecidedCounts,
-            'totalVoter' => $totalVoter
-        ]);
-    }
 
-    public function totalScannedQr()
-    {
+        // Scan Graph.
         $scannedPerMunicipality = Voter::selectRaw("
-        municipalities.name,
-        COUNT(voters.id) as total_voters,
-        SUM(CASE WHEN scanlogs.id IS NOT NULL THEN 1 ELSE 0 END) as total_scans
-    ")
+            municipalities.name,
+            COUNT(voters.id) as total_voters,
+            SUM(CASE WHEN scanlogs.id IS NOT NULL THEN 1 ELSE 0 END) as total_scans
+        ")
             ->join('municipalities', 'voters.municipality_id', '=', 'municipalities.id')
             ->leftJoin('scanlogs', 'scanlogs.voter_id', '=', 'voters.id')
             ->groupBy('municipalities.name')
@@ -86,19 +60,19 @@ class DashboardController extends Controller
             ->get();
 
         // Extract data for the view
-        $municipalities = $scannedPerMunicipality->pluck('name')->toArray();
-        $totalVoters = $scannedPerMunicipality->pluck('total_voters')->toArray();
-        $totalScans = $scannedPerMunicipality->pluck('total_scans')->toArray();
+        $municipalities3 = $scannedPerMunicipality->pluck('name')->toArray();
+        $totalVoters3 = $scannedPerMunicipality->pluck('total_voters')->toArray();
+        $totalScans3 = $scannedPerMunicipality->pluck('total_scans')->toArray();
 
         // Prepare chart data with actual and expected values
-        $chartData = collect($municipalities)->map(function ($municipality, $index) use ($totalVoters, $totalScans) {
+        $chartData = collect($municipalities)->map(function ($municipality, $index) use ($totalVoters3, $totalScans3) {
             return [
                 'x' => $municipality,
-                'y' => $totalScans[$index], // Actual count (scans)
+                'y' => $totalScans3[$index], // Actual count (scans)
                 'goals' => [
                     [
                         'name' => 'Expected',
-                        'value' => $totalVoters[$index], // Expected count (total voters)
+                        'value' => $totalVoters3[$index], // Expected count (total voters)
                         'strokeWidth' => 5,
                         'strokeDashArray' => 2,
                         'strokeColor' => '#775DD0',
@@ -107,9 +81,24 @@ class DashboardController extends Controller
             ];
         })->toArray();
 
-        return view('systemadmin.dashboard.scan.index', [
-            'chartData' => $chartData,
-        ]);
+        return view(
+            'systemadmin.dashboard.index',
+            [
+                'totalActiveVoter' => $totalActiveVoter,
+
+                'municipalities_datasets' => $municipalities,
+                'votercounts_datasets' => $voterCounts,
+
+                'municipalities_datasets2' => $municipalities2,
+                'ally_counts_datasets' => $allyCounts,
+                'opponent_counts_datasets' => $opponentCounts,
+                'undecided_counts_datasets' => $undecidedCounts,
+                'totalVoter' => $totalVoter,
+
+                // Scan Details
+                'chartData' => $chartData,
+            ]
+        );
     }
 
     public function encoderMonitoring()

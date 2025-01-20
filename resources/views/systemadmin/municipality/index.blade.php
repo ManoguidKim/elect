@@ -33,7 +33,7 @@
     @endif
 
     <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">List of all municipality under district</h3>
-    <div class="p-4 mb-3 rounded-lg bg-green-50 dark:bg-gray-800">
+    <div class="p-4 mb-3 rounded-lg bg-gray-50 dark:bg-gray-800">
         <p class="text-sm text-gray-500 dark:text-gray-400 italic">The data presented below provides a detailed list of the municipalities along with the corresponding districts to which each municipality belongs. This information highlights the relationship between the local administrative areas and their respective districts, helping to clearly outline the geographic divisions and organizational structure.</p>
     </div>
 

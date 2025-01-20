@@ -215,11 +215,6 @@ Route::middleware([
     Route::post('system/admin/downloadformat', [DownloadController::class, 'download'])->name('system-admin-download-format')->middleware(['isAdminEncoder']);
 
 
-    // Card Desgin Upload
-    Route::get('system/admin/uploadcard', [CardLayoutController::class, 'index'])->name('system-admin-upload-card')->middleware(['isAdminEncoder']);
-    Route::post('system/admin/storecard', [CardLayoutController::class, 'store'])->name('system-admin-store-card')->middleware(['isAdminEncoder']);
-
-
     // Scanlogs
     Route::get('system/admin/qr/scanlogs', [ScanlogController::class, 'index'])->name('system-admin-qr-scanlogs')->middleware(['isAdmin']);
 
@@ -255,7 +250,7 @@ Route::middleware([
 
 
 
-
+    // Super Admin Routes here ...........................................................................................................................
 
 
 
@@ -267,4 +262,8 @@ Route::middleware([
     Route::get('system/admin/dashbord/voterfaction', [DashboardController::class, 'voterFaction'])->name('system-admin-dashboard-voterfaction')->middleware(['isSuperAdmin']);
     Route::get('system/admin/dashbord/totalscan', [DashboardController::class, 'totalScannedQr'])->name('system-admin-dashboard-totalscan')->middleware(['isSuperAdmin']);
     Route::get('system/admin/dashbord/monitoring', [DashboardController::class, 'encoderMonitoring'])->name('system-admin-dashboard-monitoring')->middleware(['isSuperAdmin']);
+
+    // Card Desgin Upload
+    Route::get('system/admin/uploadcard', [CardLayoutController::class, 'index'])->name('system-admin-upload-card')->middleware(['isSuperAdmin']);
+    Route::post('system/admin/storecard', [CardLayoutController::class, 'store'])->name('system-admin-store-card')->middleware(['isSuperAdmin']);
 });

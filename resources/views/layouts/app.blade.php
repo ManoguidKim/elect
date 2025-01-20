@@ -108,14 +108,14 @@
                         <span class="ms-3">Dashboard</span>
                     </a>
 
-                    <a href="{{ route('system-admin-barangay-voter-analytics') }}"
+                    <!-- <a href="{{ route('system-admin-barangay-voter-analytics') }}"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <svg class="w-6 h-6 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" d="M5 3a2 2 0 0 0-2 2v5h18V5a2 2 0 0 0-2-2H5ZM3 14v-2h18v2a2 2 0 0 1-2 2h-6v3h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-3H5a2 2 0 0 1-2-2Z" clip-rule="evenodd" />
                         </svg>
 
                         <span class="ms-3">Analytics</span>
-                    </a>
+                    </a> -->
 
                     <a href="{{ route('system-admin-dashboard-monitoring') }}"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -186,15 +186,40 @@
                     <ul id="report-dropdown" class="hidden py-2 space-y-2">
                         <li>
                             <a href="{{ route('system-admin-accounts') }}"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-sm">Users</a>
+                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-sm">Total Voters</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="{{ route('admin-manage-district') }}"
                                 class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-sm">District</a>
                         </li>
                         <li>
                             <a href="{{ route('admin-manage-municipality') }}"
                                 class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-sm">Municipality / City</a>
+                        </li> -->
+                    </ul>
+                </li>
+
+                <li>
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="other-superadmin-dropdown" data-collapse-toggle="other-superadmin-dropdown">
+                        <svg class="w-6 h-6 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M8 5a1 1 0 0 1 1-1h11a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-1a1 1 0 1 1 0-2h1V6H9a1 1 0 0 1-1-1Z" clip-rule="evenodd" />
+                            <path fill-rule="evenodd" d="M4 7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H4Zm0 11v-5.5h11V18H4Z" clip-rule="evenodd" />
+                        </svg>
+
+
+                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Others</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 4 4 4-4" />
+                        </svg>
+                    </button>
+                    <ul id="other-superadmin-dropdown" class="hidden py-2 space-y-2">
+                        <li>
+                            <a href="{{ route('system-admin-upload-card') }}"
+                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-sm">Upload Card Design</a>
                         </li>
                     </ul>
                 </li>
@@ -369,12 +394,6 @@
                             <a href="{{ route('system-admin-upload-voters') }}"
                                 class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-sm">Upload</a>
                         </li>
-                        @if (auth()->user()->role == 'Admin')
-                        <li>
-                            <a href="{{ route('system-admin-upload-card') }}"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-sm">Upload Card Design</a>
-                        </li>
-                        @endif
                     </ul>
                 </li>
                 @endif

@@ -54,7 +54,7 @@ class ValidatorLivewire extends Component
                         ->leftJoin('designations', 'designations.id', '=', 'voter_designations.designation_id')
 
                         ->where('voters.municipality_id', auth()->user()->municipality_id)
-                        ->where('voters.barangay_id', auth()->user()->municipality_id)
+                        ->where('voters.barangay_id', auth()->user()->barangay_id)
                         ->where(function ($query) {
                             $query->where('voters.fname', 'like', '%' . $this->search . '%')
                                 ->orWhere('voters.lname', 'like', '%' . $this->search . '%');

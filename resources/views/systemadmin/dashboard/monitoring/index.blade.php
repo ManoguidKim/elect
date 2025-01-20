@@ -81,7 +81,7 @@
                     }
                 },
                 title: {
-                    text: municipalityData.name,
+                    text: "",
                     align: 'center'
                 },
                 colors: ['#008FFB']

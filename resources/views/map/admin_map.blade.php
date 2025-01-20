@@ -25,7 +25,7 @@
         <p class="text-sm text-gray-500 dark:text-gray-400">This interactive map showcases the locations of all municipalities, marked for easy identification. Clicking on a marker reveals comprehensive data about the selected municipality, including the total number of voters, the percentage of allies, opponents, and undecided individuals.</p>
     </div>
 
-    <div id="map" style="height: 600px; width: 100%;"></div>
+    <div id="map" style="height: 700px; width: 100%;"></div>
 
     <script>
         let map;
