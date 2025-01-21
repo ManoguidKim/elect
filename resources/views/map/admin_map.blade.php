@@ -46,7 +46,6 @@
             fetch('/api/municipalities')
                 .then((response) => response.json())
                 .then((munNames) => {
-                    console.log(munNames);
                     for (let i = 0; i < munNames.length; i++) {
                         goecodeMuncipalities(munNames[i]);
                     }
@@ -60,11 +59,15 @@
             }, function(results, status) {
 
                 if (status == "OK") {
-                    // Calculate if 15% of total voters are opponents
-                    const fifteenPercentOpponents = (props.total_voters * 0.15) <= props.opponent_percentage;
+                    let markerColor, markerSize;
 
-                    const markerColor = fifteenPercentOpponents ? "red-dot.png" : "blue-dot.png";
-                    const markerSize = fifteenPercentOpponents ? new google.maps.Size(50, 50) : new google.maps.Size(50, 50);
+                    if (props.opponent_percentage > (props.total_voters * 0.15)) {
+                        markerColor = "red-dot.png";
+                        markerSize = new google.maps.Size(50, 50);
+                    } else {
+                        markerColor = "blue-dot.png";
+                        markerSize = new google.maps.Size(50, 50);
+                    }
 
                     // Create the marker
                     const marker = new google.maps.Marker({
@@ -76,6 +79,7 @@
                             scaledSize: markerSize,
                         },
                     });
+
 
                     // Info window content
                     const infoWindow = new google.maps.InfoWindow({

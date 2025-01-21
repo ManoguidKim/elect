@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Municipality;
 use App\Models\Voter;
 use Livewire\Component;
 
@@ -48,7 +49,7 @@ class VoterAnalytic extends Component
             });
         } else {
 
-            $voterFactions = Voter::select('municipalities.name')
+            $voterFactions = Municipality::select('municipalities.name')
 
                 // Get the count of allies, opponents, and undecided voters
                 ->selectRaw('COUNT(voters.id) as total_voters')
@@ -56,20 +57,24 @@ class VoterAnalytic extends Component
                 ->selectRaw('SUM(voters.remarks = "opponent") as opponent_count')
                 ->selectRaw('SUM(voters.remarks = "undecided") as undecided_count')
 
-                // Join with barangays table
-                ->join('municipalities', 'municipalities.id', '=', 'voters.municipality_id')
+                // Use LEFT JOIN to include municipalities even without voters
+                ->leftJoin('voters', 'municipalities.id', '=', 'voters.municipality_id')
 
                 // Filter for active voters and search condition
-                ->where('voters.status', 'Active')
+                ->where(function ($query) {
+                    $query->where('voters.status', 'Active')
+                        ->orWhereNull('voters.status'); // Include municipalities with no voters
+                })
                 ->where('municipalities.name', 'like', '%' . $this->search . '%')
 
-                // Group by barangay name
-                ->groupBy('municipalities.name')
+                // Group by municipality name
+                ->groupBy('municipalities.id', 'municipalities.name')
 
-                // Order by barangay name
+                // Order by municipality name
                 ->orderBy('municipalities.name', 'asc')
                 ->get();
 
+            // Calculate percentages
             $voterFactions = $voterFactions->map(function ($municipality) {
                 $totalVoters = $municipality->total_voters;
 

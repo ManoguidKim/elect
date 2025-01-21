@@ -82,25 +82,24 @@ class MunicipalityController extends Controller
 
     public function getMunicipalities()
     {
-        $voterFactions = Voter::select('municipalities.name as municipality_name')
-
-            // Get the count of allies, opponents, and undecided voters
-            ->selectRaw('COUNT(voters.id) as total_voters')
-            ->selectRaw('SUM(voters.remarks = "ally") as ally_count')
-            ->selectRaw('SUM(voters.remarks = "opponent") as opponent_count')
-            ->selectRaw('SUM(voters.remarks = "undecided") as undecided_count')
-
-            // Join with municipalities and barangays tables
-            ->join('municipalities', 'municipalities.id', '=', 'voters.municipality_id')
-            // Filter for active voters and search condition
-            ->where('voters.status', 'Active')
-            // Group by municipality and barangay names
+        $voterFactions = Municipality::select('municipalities.name as municipality_name')
+            // Ensure a count even when no voters are present
+            ->selectRaw('COALESCE(COUNT(voters.id), 0) as total_voters')
+            ->selectRaw('COALESCE(SUM(voters.remarks = "ally"), 0) as ally_count')
+            ->selectRaw('COALESCE(SUM(voters.remarks = "opponent"), 0) as opponent_count')
+            ->selectRaw('COALESCE(SUM(voters.remarks = "undecided"), 0) as undecided_count')
+            // Left join to include all municipalities
+            ->leftJoin('voters', 'municipalities.id', '=', 'voters.municipality_id')
+            ->where(function ($query) {
+                // Include voters only if active
+                $query->whereNull('voters.status')
+                    ->orWhere('voters.status', 'Active');
+            })
             ->groupBy('municipalities.name')
-            // Order by municipality and barangay names
             ->orderBy('municipalities.name', 'asc')
             ->get();
 
-        // Calculate percentages for each barangay
+        // Calculate percentages
         $voterFactions = $voterFactions->map(function ($record) {
             $totalVoters = $record->total_voters;
 
@@ -111,6 +110,7 @@ class MunicipalityController extends Controller
 
             return $record;
         });
+
 
         return response()->json($voterFactions);
     }

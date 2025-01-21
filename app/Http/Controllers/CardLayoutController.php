@@ -14,7 +14,7 @@ class CardLayoutController extends Controller
      */
     public function index()
     {
-        $cards = CardLayout::where('municipality_id', auth()->user()->municipality_id)->get();
+        $cards = CardLayout::all();
         return view(
             'card.index',
             [
@@ -56,8 +56,7 @@ class CardLayoutController extends Controller
 
             // Insert data into the database
             $cardFile = CardLayout::create([
-                'image_path' => $path,
-                'municipality_id' => auth()->user()->municipality_id
+                'image_path' => $path
             ]);
 
             // Redirect or return a response

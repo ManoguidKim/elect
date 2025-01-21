@@ -14,6 +14,7 @@ use App\Http\Controllers\ScanlogController;
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\systemadmin\DashboardController;
 use App\Http\Controllers\systemadmin\DistrictController;
+use App\Http\Controllers\systemadmin\MonitoringController;
 use App\Http\Controllers\systemadmin\MunicipalityController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
@@ -258,10 +259,9 @@ Route::middleware([
 
     // System Admin
     Route::get('system/admin/dashbord', [DashboardController::class, 'index'])->name('system-admin-dashboard-show')->middleware(['isSuperAdmin']);
-    Route::get('system/admin/dashbord/totalvoter', [DashboardController::class, 'totalVoter'])->name('system-admin-dashboard-totalvoter')->middleware(['isSuperAdmin']);
-    Route::get('system/admin/dashbord/voterfaction', [DashboardController::class, 'voterFaction'])->name('system-admin-dashboard-voterfaction')->middleware(['isSuperAdmin']);
-    Route::get('system/admin/dashbord/totalscan', [DashboardController::class, 'totalScannedQr'])->name('system-admin-dashboard-totalscan')->middleware(['isSuperAdmin']);
     Route::get('system/admin/dashbord/monitoring', [DashboardController::class, 'encoderMonitoring'])->name('system-admin-dashboard-monitoring')->middleware(['isSuperAdmin']);
+
+    Route::get('system/admin/monitoring/validator', [MonitoringController::class, 'validatorMonitoring'])->name('system-admin-monitoring-validator')->middleware(['isSuperAdmin']);
 
     // Card Desgin Upload
     Route::get('system/admin/uploadcard', [CardLayoutController::class, 'index'])->name('system-admin-upload-card')->middleware(['isSuperAdmin']);
