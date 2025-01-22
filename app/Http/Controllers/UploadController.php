@@ -24,6 +24,9 @@ class UploadController extends Controller
 
     public function upload(FileUploadRequest $request)
     {
+        ini_set('memory_limit', '512M'); // Adjust as needed
+        ini_set('max_execution_time', '300'); // 300 seconds
+
         // Load the Excel file
         $spreadsheet = IOFactory::load($request->excelFile);
         // Get the first sheet
@@ -57,6 +60,7 @@ class UploadController extends Controller
             }
 
             Voter::create([
+                'municipality_id' => auth()->user()->municipality_id,
                 'barangay_id' => $barangayId,
                 'fname' => $firstname,
                 'mname' => $middlename,

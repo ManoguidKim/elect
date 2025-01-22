@@ -202,66 +202,62 @@
             </thead>
             <tbody>
                 @foreach ($voterfactions as $voter)
-                @php
-                $fifteenPercentOpponents = ($voter->total_voters * 0.15) <= $voter->opponent_percentage;
-                    @endphp
-
-                    @if ($fifteenPercentOpponents)
-                    <tr class="bg-red-100 border-b dark:bg-gray-800 dark:border-gray-700 uppercase">
-                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white italic">
-                            {{ $voter->name }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $voter->total_voters }}
-                        </td>
-                        <td class="px-6 py-4 bg-red-100 italic">
-                            {{ $voter->ally_count }}
-                        </td>
-                        <td class="px-6 py-4 bg-red-100 italic">
-                            {{ $voter->opponent_count }}
-                        </td>
-                        <td class="px-6 py-4 bg-red-100 italic">
-                            {{ $voter->undecided_count }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $voter->ally_percentage }}%
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $voter->opponent_percentage }}%
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $voter->undecided_percentage }}%
-                        </td>
-                    </tr>
-                    @else
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 uppercase">
-                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white italic">
-                            {{ $voter->name }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $voter->total_voters }}
-                        </td>
-                        <td class="px-6 py-4 bg-green-50 italic">
-                            {{ $voter->ally_count }}
-                        </td>
-                        <td class="px-6 py-4 bg-red-50 italic">
-                            {{ $voter->opponent_count }}
-                        </td>
-                        <td class="px-6 py-4 bg-gray-50 italic">
-                            {{ $voter->undecided_count }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $voter->ally_percentage }}%
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $voter->opponent_percentage }}%
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $voter->undecided_percentage }}%
-                        </td>
-                    </tr>
-                    @endif
-                    @endforeach
+                @if ($voter->opponent_percentage > ($voter->total_voters * 0.15))
+                <tr class="bg-red-100 border-b dark:bg-gray-800 dark:border-gray-700 uppercase">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white italic">
+                        {{ $voter->name }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $voter->total_voters }}
+                    </td>
+                    <td class="px-6 py-4 bg-red-100 italic">
+                        {{ $voter->ally_count }}
+                    </td>
+                    <td class="px-6 py-4 bg-red-100 italic">
+                        {{ $voter->opponent_count }}
+                    </td>
+                    <td class="px-6 py-4 bg-red-100 italic">
+                        {{ $voter->undecided_count }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $voter->ally_percentage }}%
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $voter->opponent_percentage }}%
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $voter->undecided_percentage }}%
+                    </td>
+                </tr>
+                @else
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 uppercase">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white italic">
+                        {{ $voter->name }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $voter->total_voters }}
+                    </td>
+                    <td class="px-6 py-4 bg-green-50 italic">
+                        {{ $voter->ally_count }}
+                    </td>
+                    <td class="px-6 py-4 bg-red-50 italic">
+                        {{ $voter->opponent_count }}
+                    </td>
+                    <td class="px-6 py-4 bg-gray-50 italic">
+                        {{ $voter->undecided_count }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $voter->ally_percentage }}%
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $voter->opponent_percentage }}%
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $voter->undecided_percentage }}%
+                    </td>
+                </tr>
+                @endif
+                @endforeach
             </tbody>
 
         </table>

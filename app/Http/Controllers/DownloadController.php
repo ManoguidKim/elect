@@ -12,7 +12,7 @@ class DownloadController extends Controller
 {
     public function index()
     {
-        $barangays = Barangay::all();
+        $barangays = Barangay::where('municipality_id', auth()->user()->municipality_id)->get();
         return view(
             'download.index',
             [

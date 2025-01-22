@@ -55,18 +55,12 @@
                         <th scope="col" class="px-6 py-3">
                             Voter Details
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Side
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Action
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($voters as $voter)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 uppercase">
-                        <th scope="row" class="flex flex-col sm:flex-row items-center px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="flex flex-col sm:flex-row px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white">
                             @can('update', $voter)
                             <a href="{{ route('system-validator-capture-image', $voter->id) }}" class="flex-shrink-0">
                                 @if($voter->image_path == "")
@@ -79,32 +73,26 @@
                                 <div class="text-base font-bold">{{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }}</div>
                                 <div class="font-bold text-gray-400">{{ 'Gender : ' . $voter->gender . ' - Date of birth : ' . date('F d, Y', strtotime($voter->dob)) }}</div>
                                 <div class="font-bold text-red-400">{{ 'Address : ' . $voter->name }}, Bayambang, Pangasinan</div>
-                            </div>
-                        </th>
 
-                        <th class="px-6 py-3">
-                            {{ $voter->remarks }}
-                        </th>
+                                <br>
 
-                        <th class="px-6 py-3">
-                            <div class="flex flex-col space-y-2">
-                                @if($voter->remarks != "Ally")
-                                <button class="inline-flex items-center justify-center text-gray-500 bg-white border border-green-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="updateVoter({{ $voter->id }}, 'Ally')" wire:confirm="Are you sure you want to mark {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} as Ally?">
-                                    Tag as Ally
-                                </button>
+                                @if($voter->remarks == "Ally")
+                                <div class="font-bold text-lg text-green-400">{{ 'Remarks : ' . $voter->remarks }}</div>
                                 @endif
 
-                                @if($voter->remarks != "Opponent")
-                                <button class="inline-flex items-center justify-center text-gray-500 bg-white border border-red-400 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="updateVoter({{ $voter->id }}, 'Opponent')" wire:confirm="Are you sure you want to mark {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} as Opponent?">
-                                    Tag as Opponent
-                                </button>
+                                @if($voter->remarks == "Opponent")
+                                <div class="font-bold text-lg text-red-400">{{ 'Remarks : ' . $voter->remarks }}</div>
                                 @endif
 
-                                @if($voter->remarks != "Undecided")
-                                <button class="inline-flex items-center justify-center text-gray-500 bg-white border border-gray-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="updateVoter({{ $voter->id }}, 'Undecided')" wire:confirm="Are you sure you want to mark {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} as Undecided?">
-                                    Tag as Undecided
-                                </button>
+                                @if($voter->remarks == "Undecided")
+                                <div class="font-bold text-lg text-gray-400">{{ 'Remarks : ' . $voter->remarks }}</div>
                                 @endif
+
+                                <br>
+
+                                <a href="{{ route('system-admin-validator-edit', $voter->id) }}" class="inline-flex w-full items-center justify-center text-gray-500 bg-white border border-green-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:confirm="Are you sure you want to edit {{ $voter->fname . ' ' . $voter->mname .  ' ' . $voter->lname }} information?">
+                                    Edit Voter Details
+                                </a>
                             </div>
                         </th>
                         @endcan

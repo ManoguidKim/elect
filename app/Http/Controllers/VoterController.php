@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddVoterRequest;
 use App\Http\Requests\UpdateVoterRequest;
+use App\Http\Requests\validator\UpdateValidatorRequest;
 use App\Models\Barangay;
 use App\Models\Voter;
 use Illuminate\Http\Request;
@@ -121,5 +122,29 @@ class VoterController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function validatorEdit(Voter $voter)
+    {
+        return view(
+            'validator.edit',
+            [
+                'voter' => $voter
+            ]
+        );
+    }
+
+    public function validatorUpdate(UpdateValidatorRequest $request, Voter $voter)
+    {
+        $voter->update(
+            [
+                'gender' => $request->gender,
+                'dob' => $request->dob,
+                'remarks' => $request->remarks,
+                'status' => $request->status
+            ]
+        );
+
+        return redirect()->route('system-validator-barangay-voter-list')->with('message', 'Voter updated successfully!');
     }
 }

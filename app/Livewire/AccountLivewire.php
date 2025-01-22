@@ -37,7 +37,8 @@ class AccountLivewire extends Component
             $users = User::select('users.id', 'users.name', 'users.email', 'users.role', 'barangays.name as barangay_name', 'municipalities.name as municipality_name')
                 ->leftJoin('municipalities', 'municipalities.id', '=', 'users.municipality_id')
                 ->leftJoin('barangays', 'barangays.id', '=', 'users.barangay_id')
-                ->where('users.municipality_id', auth()->user()->municipality_id)  // Filter by the same municipality as the admin
+                ->where('users.municipality_id', auth()->user()->municipality_id)
+                ->where('users.role', '!=', 'Super Admin')
                 ->where(function ($query) {
                     $query->where('users.name', 'like', '%' . $this->search . '%')
                         ->orWhere('users.role', 'like', '%' . $this->search . '%')
@@ -49,6 +50,8 @@ class AccountLivewire extends Component
             $users = User::select('users.id', 'users.name', 'users.email', 'users.role', 'barangays.name as barangay_name', 'municipalities.name as municipality_name')
                 ->leftJoin('municipalities', 'municipalities.id', '=', 'users.municipality_id')
                 ->leftJoin('barangays', 'barangays.id', '=', 'users.barangay_id')
+                ->where('users.role', 'Admin')
+                ->orWhere('users.role', 'Super Admin')
                 ->where(function ($query) {
                     $query->where('users.name', 'like', '%' . $this->search . '%')
                         ->orWhere('users.role', 'like', '%' . $this->search . '%')

@@ -262,8 +262,15 @@ Route::middleware([
     Route::get('system/admin/dashbord/monitoring', [DashboardController::class, 'encoderMonitoring'])->name('system-admin-dashboard-monitoring')->middleware(['isSuperAdmin']);
 
     Route::get('system/admin/monitoring/validator', [MonitoringController::class, 'validatorMonitoring'])->name('system-admin-monitoring-validator')->middleware(['isSuperAdmin']);
+    Route::get('system/admin/monitoring/validator/view/{municipality}', [MonitoringController::class, 'viewValidatorMonitoring'])->name('system-admin-monitoring-validator-view')->middleware(['isSuperAdmin']);
 
     // Card Desgin Upload
     Route::get('system/admin/uploadcard', [CardLayoutController::class, 'index'])->name('system-admin-upload-card')->middleware(['isSuperAdmin']);
     Route::post('system/admin/storecard', [CardLayoutController::class, 'store'])->name('system-admin-store-card')->middleware(['isSuperAdmin']);
+
+
+
+
+    Route::get('system/admin/validator/edit/{voter}', [VoterController::class, 'validatorEdit'])->name('system-admin-validator-edit')->middleware(['isAdminValidator']);
+    Route::post('system/admin/validator/update/{voter}', [VoterController::class, 'validatorUpdate'])->name('system-admin-validator-update')->middleware(['isAdminValidator']);
 });

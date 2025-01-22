@@ -67,9 +67,11 @@
                     <th scope="col" class="px-6 py-3">
                         Municipality
                     </th>
+                    @if(auth()->user()->role == "Admin")
                     <th scope="col" class="px-6 py-3">
                         Barangay
                     </th>
+                    @endif
                     <th scope="col" class="px-6 py-3">
                         User Role
                     </th>
@@ -90,10 +92,12 @@
                     <td class="px-6 py-2 italic text-red-400">(No assigned municipality)</td>
                     @endif
 
+                    @if(auth()->user()->role == "Admin")
                     @if ($user->barangay_name != "")
                     <td class="px-6 py-2">Assigned barangay : {{ $user->barangay_name }}</td>
                     @else
                     <td class="px-6 py-2 italic text-red-400">(No assigned barangay)</td>
+                    @endif
                     @endif
                     <td class="px-6 py-2">{{ $user->role }}</td>
                     <td class="px-6 py-2">
