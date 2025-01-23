@@ -68,7 +68,7 @@
         },
         yaxis: {
             title: {
-                text: 'Barangays',
+                text: 'Validators',
             },
         },
         legend: {

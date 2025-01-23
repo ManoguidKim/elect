@@ -5,6 +5,7 @@ use App\Http\Controllers\CaptureImageController;
 use App\Http\Controllers\CardLayoutController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\DynamicController;
+use App\Http\Controllers\LogsController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PageController;
@@ -273,4 +274,8 @@ Route::middleware([
 
     Route::get('system/admin/validator/edit/{voter}', [VoterController::class, 'validatorEdit'])->name('system-admin-validator-edit')->middleware(['isAdminValidator']);
     Route::post('system/admin/validator/update/{voter}', [VoterController::class, 'validatorUpdate'])->name('system-admin-validator-update')->middleware(['isAdminValidator']);
+
+
+    // LOG
+    Route::get('system/admin/log/municipalities', [LogsController::class, 'adminLog'])->name('system-admin-log-municipalities')->middleware(['isSuperAdmin']);
 });

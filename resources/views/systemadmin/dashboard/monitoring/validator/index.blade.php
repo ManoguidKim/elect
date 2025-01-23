@@ -14,16 +14,21 @@
                          <svg class="w-3 h-3 text-gray-400 mx-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                          </svg>
-                         <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Dashboard</a>
+                         <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Monitoring</a>
+                    </div>
+               </li>
+               <li>
+                    <div class="flex items-center">
+                         <svg class="w-3 h-3 text-gray-400 mx-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                         </svg>
+                         <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Municipalities</a>
                     </div>
                </li>
           </ol>
      </nav>
 
      <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Tracking the progress of validator in every municipality.</h3>
-     <div class="p-4 mb-3 rounded-lg bg-green-50 dark:bg-gray-800 border border-dashed">
-          <p class="text-sm text-gray-500 dark:text-gray-400 italic">The line graph below shows the daily progress of voter encoding per municipality, highlighting the number of voters recorded each day. It allows for comparisons between municipalities, showing variations in speed and efficiency. The graph helps identify trends, potential delays, and areas needing support, ensuring timely completion of the voter encoding process across all municipalities.</p>
-     </div>
 
      <div class="relative overflow-x-auto sm:rounded-lg p-1">
 
