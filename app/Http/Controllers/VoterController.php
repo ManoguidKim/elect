@@ -50,7 +50,7 @@ class VoterController extends Controller
                     'municipality_id' => auth()->user()->municipality_id,
                     'barangay_id' => $request->validated()['barangay'],
                     'precinct_no' => $request->validated()['precinct_no'],
-                    'remarks' => "Undecided"
+                    'remarks' => $request->validated()['remarks'] ?? "Undecided"
                 ]
             );
 

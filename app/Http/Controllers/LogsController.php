@@ -17,4 +17,15 @@ class LogsController extends Controller
     {
         return view('systemadmin.log.activity.index');
     }
+
+    public function showAdminLog(Municipality $municipality)
+    {
+        return view(
+            'systemadmin.log.activity.show',
+            [
+                'municipalId' => $municipality->id,
+                'municipalityName' => $municipality->name
+            ]
+        );
+    }
 }

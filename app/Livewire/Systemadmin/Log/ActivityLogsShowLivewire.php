@@ -10,22 +10,25 @@ class ActivityLogsShowLivewire extends Component
 {
 
     public $search = "";
-    public $municipalityId = "";
+    public $municipalId = "";
 
-    public function mount(Municipality $municipality)
+    public function mount($municipalId)
     {
-        $this->municipalityId = $municipality->id;
+        if (!$municipalId) {
+            abort(404, 'Municipality not found.');
+        }
+        $this->municipalId = $municipalId;
     }
 
     public function render()
     {
         $logs = Log::select('activity_log.*', 'users.name', 'users.role')
             ->join('users', 'users.id', '=', 'activity_log.causer_id')
-
-            ->where('users.municipality_id', $this->municipalityId)
-            ->where('activity_log.description', 'like', '%' . $this->search . '%')
-            ->orWhere('activity_log.subject_type', 'like', '%' . $this->search . '%')
-
+            ->where('users.municipality_id', $this->municipalId)
+            ->where(function ($query) {
+                $query->where('activity_log.description', 'like', '%' . $this->search . '%')
+                    ->orWhere('activity_log.subject_type', 'like', '%' . $this->search . '%');
+            })
             ->orderBy('activity_log.id', 'desc')
             ->paginate(100);
 

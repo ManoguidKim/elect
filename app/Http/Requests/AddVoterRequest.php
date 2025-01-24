@@ -30,6 +30,7 @@ class AddVoterRequest extends FormRequest
             'gender' => 'required|string',
             'barangay' => 'required|string',
             'precinct_no' => 'required|string',
+            'remarks' => 'nullable',
         ];
     }
 

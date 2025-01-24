@@ -33,13 +33,35 @@
 
         function initMap() {
 
+            // Define a custom map style to remove POIs and establishments
+            const customMapStyle = [{
+                    "featureType": "poi",
+                    "stylers": [{
+                        "visibility": "off"
+                    }]
+                },
+                {
+                    "featureType": "poi.business",
+                    "stylers": [{
+                        "visibility": "off"
+                    }]
+                },
+                {
+                    "featureType": "transit",
+                    "stylers": [{
+                        "visibility": "off"
+                    }]
+                }
+            ];
+
             geocoder = new google.maps.Geocoder();
             var latlng = new google.maps.LatLng(16.50000000, 120.41667000);
             var mapOptions = {
                 zoom: 10,
                 center: latlng,
                 scrollwheel: false,
-                disableDoubleClickZoom: true
+                disableDoubleClickZoom: true,
+                styles: customMapStyle
             }
             map = new google.maps.Map(document.getElementById('map'), mapOptions);
 

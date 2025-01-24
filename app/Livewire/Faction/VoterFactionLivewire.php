@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Faction;
 
+use App\Models\Barangay;
 use App\Models\Voter;
 use Livewire\Component;
 
@@ -11,21 +12,17 @@ class VoterFactionLivewire extends Component
 
     public function render()
     {
-        $voterTaggedAlly = Voter::where(['status' => 'Active', 'remarks' => 'Ally'])->count();
-        $voterTaggedOpponent = Voter::where(['status' => 'Active', 'remarks' => 'Opponent'])->count();
-        $voterTaggedUndecided = Voter::where(['status' => 'Active', 'remarks' => 'Undecided'])->count();
+        $voterTaggedAlly = Voter::where(['status' => 'Active', 'remarks' => 'Ally', 'municipality_id' => auth()->user()->municipality_id])->count();
+        $voterTaggedOpponent = Voter::where(['status' => 'Active', 'remarks' => 'Opponent', 'municipality_id' => auth()->user()->municipality_id])->count();
+        $voterTaggedUndecided = Voter::where(['status' => 'Active', 'remarks' => 'Undecided', 'municipality_id' => auth()->user()->municipality_id])->count();
 
-        $voterFactions = Voter::select('barangays.name')
-
-            ->selectRaw('SUM(voters.remarks = "ally") as ally_count')
-            ->selectRaw('SUM(voters.remarks = "opponent") as opponent_count')
-            ->selectRaw('SUM(voters.remarks = "undecided") as undecided_count')
-
-            ->join('barangays', 'barangays.id', '=', 'voters.barangay_id')
-
-            ->where('voters.status', 'Active')
+        $voterFactions = Barangay::select('barangays.name')
+            ->selectRaw('COALESCE(SUM(voters.remarks = "ally"), 0) as ally_count')
+            ->selectRaw('COALESCE(SUM(voters.remarks = "opponent"), 0) as opponent_count')
+            ->selectRaw('COALESCE(SUM(voters.remarks = "undecided"), 0) as undecided_count')
+            ->leftJoin('voters', 'barangays.id', '=', 'voters.barangay_id')
+            ->where('barangays.municipality_id', auth()->user()->municipality_id)
             ->where('barangays.name', 'like', '%' . $this->search . '%')
-
             ->groupBy('barangays.name')
             ->orderBy('barangays.name', 'asc')
             ->get();

@@ -32,7 +32,7 @@
     </div>
     @endif
 
-    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">List of all barangay</h3>
+    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ $municipalityName }} barangay list.</h3>
     <div class="p-4 mb-3 rounded-lg bg-gray-50 dark:bg-gray-800">
         <p class="text-sm text-gray-500 dark:text-gray-400">This page allows you to explore and view detailed information for all barangays, providing a comprehensive overview of each area within the region.</p>
     </div>

@@ -20,7 +20,7 @@
         </ol>
     </nav>
 
-    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Map of Bayambang Pangasinan</h3>
+    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Map La Union Province</h3>
     <div class="p-4 mb-3 rounded-lg bg-green-50 dark:bg-gray-800 border border-dashed">
         <p class="text-sm text-gray-500 dark:text-gray-400">This interactive map showcases the locations of all barangays, marked for easy identification. Clicking on a marker reveals comprehensive data about the selected barangay, including the total number of voters, the percentage of allies, opponents, and undecided individuals.</p>
     </div>
@@ -52,13 +52,35 @@
                     var lat = results[0].geometry.location.lat();
                     var lng = results[0].geometry.location.lng();
 
+                    // Define a custom map style to remove POIs and establishments
+                    const customMapStyle = [{
+                            "featureType": "poi",
+                            "stylers": [{
+                                "visibility": "off"
+                            }]
+                        },
+                        {
+                            "featureType": "poi.business",
+                            "stylers": [{
+                                "visibility": "off"
+                            }]
+                        },
+                        {
+                            "featureType": "transit",
+                            "stylers": [{
+                                "visibility": "off"
+                            }]
+                        }
+                    ];
+
                     // Initialize the map with the geocoded coordinates
                     var latlng = new google.maps.LatLng(lat, lng);
                     var mapOptions = {
                         zoom: 15,
                         center: latlng,
                         scrollwheel: false,
-                        disableDoubleClickZoom: true
+                        disableDoubleClickZoom: true,
+                        styles: customMapStyle // Apply the custom style here
                     };
                     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -78,22 +100,27 @@
             });
         }
 
+
         function geocodeBarangay(props) {
             geocoder.geocode({
                 address: props.name + ", " + curAddress
             }, function(results, status) {
                 if (status === "OK") {
-                    // Calculate if 15% of total voters are opponents
-                    const fifteenPercentOpponents = (props.total_voters * 0.15) <= props.opponent_percentage;
+                    let markerColor, markerSize;
 
-                    const markerColor = fifteenPercentOpponents ? "red-dot.png" : "blue-dot.png";
-                    const markerSize = fifteenPercentOpponents ? new google.maps.Size(70, 70) : new google.maps.Size(50, 50);
+                    if (props.opponent_percentage > (props.total_voters * 0.15)) {
+                        markerColor = "red-dot.png";
+                        markerSize = new google.maps.Size(50, 50);
+                    } else {
+                        markerColor = "blue-dot.png";
+                        markerSize = new google.maps.Size(50, 50);
+                    }
 
                     // Create the marker
                     const marker = new google.maps.Marker({
                         map: map,
                         position: results[0].geometry.location,
-                        title: props.name,
+                        title: props.municipality_name,
                         icon: {
                             url: `http://maps.google.com/mapfiles/ms/icons/${markerColor}`,
                             scaledSize: markerSize,

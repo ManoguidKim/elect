@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Barangay;
+use App\Models\Municipality;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -72,11 +73,16 @@ class BarangayLivewire extends Component
 
     public function render()
     {
+        $municipalityName = Municipality::where('id', auth()->user()->municipality_id)->first()->name;
         $barangays = Barangay::where('municipality_id', auth()->user()->municipality_id)
-            ->where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('name', 'like', '%' . $this->search . '%')
-            ->paginate(50);
+            ->where(function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%');
+            })
+            ->get();
 
-        return view('livewire.barangay-livewire', ['barangays' => $barangays]);
+        return view('livewire.barangay-livewire', [
+            'barangays' => $barangays,
+            'municipalityName' => $municipalityName
+        ]);
     }
 }

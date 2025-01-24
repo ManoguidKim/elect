@@ -29,9 +29,9 @@
     </nav>
 
     <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Create new voter</h3>
-    <!-- <div class="p-4 mb-3 rounded-lg bg-blue-50 dark:bg-gray-800 border border-dashed">
-        <p class="text-sm text-gray-500 dark:text-gray-400">A new voter is an individual who has recently registered or become eligible to vote for the first time. This can include individuals who have reached the legal voting age, newly naturalized citizens, or people who have updated their registration details after moving to a new location. New voters are added to the voter list, allowing them to participate in upcoming elections and contribute to the democratic process. The registration process typically involves providing personal information, proof of identity, and sometimes proof of residency, ensuring the voter meets the legal requirements to vote.</p>
-    </div> -->
+    <div class="p-4 mb-3 rounded-lg bg-blue-50 dark:bg-gray-800 border border-dashed">
+        <p class="text-sm text-gray-500 dark:text-gray-400">A new voter is someone recently registered or eligible to vote, such as those reaching legal voting age, newly naturalized citizens, or individuals updating their registration after moving. They provide personal information and proof of identity to join the voter list and participate in elections.</p>
+    </div>
 
     <form action="{{ route('system-admin-voters-create-add') }}" method="post">
         @csrf
@@ -99,6 +99,17 @@
                 <input type="text" name="precinct_no" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2" placeholder="Enter Precinct No." value="{{ old('precinct_no') }}">
 
                 @error('precinct_no')
+                <span class="text-red-400">{{ $message }}</span>
+                @enderror
+
+                <label class="block mb-1 text-xs font-medium text-gray-900 dark:text-white">Mark voter as</label>
+                <select name="remarks" class="mb-2 bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter First Name">
+                    <option value="">Select Remakrs</option>
+                    <option value="Ally" {{ old('remarks') == 'Ally' ? 'selected' : '' }}>Ally</option>
+                    <option value="Opponent" {{ old('remarks') == 'Opponent' ? 'selected' : '' }}>Opponent</option>
+                    <option value="Undecided" {{ old('remarks') == 'Undecided' ? 'selected' : '' }}>Undecided</option>
+                </select>
+                @error('remarks')
                 <span class="text-red-400">{{ $message }}</span>
                 @enderror
             </div>

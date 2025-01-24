@@ -13,8 +13,11 @@ class LogsLivewire extends Component
     {
         $logs = Log::select('activity_log.*', 'users.name', 'users.role')
             ->join('users', 'users.id', '=', 'activity_log.causer_id')
-            ->where('activity_log.description', 'like', '%' . $this->search . '%')
-            ->orWhere('activity_log.subject_type', 'like', '%' . $this->search . '%')
+            ->where('users.municipality_id', auth()->user()->municipality_id)
+            ->where(function ($query) {
+                $query->where('activity_log.description', 'like', '%' . $this->search . '%')
+                    ->orWhere('activity_log.subject_type', 'like', '%' . $this->search . '%');
+            })
             ->orderBy('activity_log.id', 'desc')
             ->paginate(100);
 

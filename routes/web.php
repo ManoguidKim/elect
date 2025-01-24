@@ -278,4 +278,5 @@ Route::middleware([
 
     // LOG
     Route::get('system/admin/log/municipalities', [LogsController::class, 'adminLog'])->name('system-admin-log-municipalities')->middleware(['isSuperAdmin']);
+    Route::get('system/admin/log/municipalities/show/{municipality}', [LogsController::class, 'showAdminLog'])->name('system-admin-log-municipalities-show')->middleware(['isSuperAdmin']);
 });
