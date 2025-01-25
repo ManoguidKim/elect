@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminEncoderMiddleware
@@ -20,6 +21,9 @@ class AdminEncoderMiddleware
             return $next($request);
         }
 
-        abort(401);
+        Session::invalidate();
+        Session::regenerate();
+
+        return redirect()->route('login')->with('status', 'Access Denied');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Barangay;
 use App\Models\Scanlog;
 use App\Models\Voter;
 use Illuminate\Support\Facades\DB;
@@ -48,12 +49,12 @@ class DashboardLivewire extends Component
 
 
         // Active Voter Per Barangay
-        $voterPerBarangay = Voter::selectRaw("
-        barangays.name, 
-        SUM(CASE WHEN voters.status = 'Active' THEN 1 ELSE 0 END) as active_voter
-    ")
-            ->join('barangays', 'voters.barangay_id', '=', 'barangays.id')
-            ->where('voters.municipality_id', auth()->user()->municipality_id)
+        $voterPerBarangay = Barangay::selectRaw("
+                barangays.name, 
+                COALESCE(SUM(CASE WHEN voters.status = 'Active' THEN 1 ELSE 0 END), 0) as active_voter
+            ")
+            ->leftJoin('voters', 'barangays.id', '=', 'voters.barangay_id')
+            ->where('barangays.municipality_id', auth()->user()->municipality_id)
             ->groupBy('barangays.name')
             ->orderBy('barangays.name')
             ->get();
@@ -66,7 +67,14 @@ class DashboardLivewire extends Component
 
 
         // Count Scanned QR 
-        $scannedVoter = Scanlog::count();
+        $scannedVoter = Voter::selectRaw("
+        COUNT(voters.id) as total_voters,
+        SUM(CASE WHEN scanlogs.id IS NOT NULL THEN 1 ELSE 0 END) as total_scans,
+        FORMAT((SUM(CASE WHEN scanlogs.id IS NOT NULL THEN 1 ELSE 0 END) / COUNT(voters.id)) * 100, 1) as scan_percentage
+    ")
+            ->leftJoin('scanlogs', 'scanlogs.voter_id', '=', 'voters.id')
+            ->where('voters.municipality_id', auth()->user()->municipality_id)
+            ->first();
 
         return
             view(

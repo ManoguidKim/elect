@@ -49,7 +49,7 @@
             <div class="max-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
                 <div class="flex-1">
                     <a href="#">
-                        <h6 class="mb-2 text-xl font-semibold tracking-tight text-gray-600 dark:text-white">Total Ally ({{ number_format($voterTaggedAlly) }})</h6>
+                        <h6 class="mb-2 text-2xl font-semibold tracking-tight text-gray-600 dark:text-white">Total Ally ({{ number_format($voterTaggedAlly) }})</h6>
                     </a>
                     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400"></p>
                     <a href="{{ route('system-admin-voter-faction') }}" class="inline-flex font-medium items-center text-blue-600 hover:underline">
@@ -66,10 +66,10 @@
             <div class="max-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
                 <div class="flex-1">
                     <a href="#">
-                        <h6 class="mb-2 text-2xl font-semibold tracking-tight text-gray-600 dark:text-white">Scanned QR ({{ $scannedVoter }})</h6>
+                        <h6 class="mb-2 text-2xl font-semibold tracking-tight text-gray-600 dark:text-white">Scanned QR ({{ $scannedVoter->scan_percentage }}%)</h6>
                     </a>
                     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400"></p>
-                    <a href="#" class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                    <a href="{{ route('system-admin-qr-scanlogs-graph') }}" class="inline-flex font-medium items-center text-blue-600 hover:underline">
                         Click to view details
                     </a>
                 </div>
