@@ -18,9 +18,9 @@ class DesignationLivewire extends Component
 
     public function render()
     {
-        $designations = Designation::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('name', 'like', '%' . $this->search . '%')
-            ->paginate(50);
+        $designations = Designation::where('municipality_id', auth()->user()->municipality_id)
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->get();
 
         return view('livewire.designation-livewire', ['designations' => $designations]);
     }

@@ -57,7 +57,7 @@
             geocoder = new google.maps.Geocoder();
             var latlng = new google.maps.LatLng(16.50000000, 120.41667000);
             var mapOptions = {
-                zoom: 10,
+                zoom: 12,
                 center: latlng,
                 scrollwheel: false,
                 disableDoubleClickZoom: true,

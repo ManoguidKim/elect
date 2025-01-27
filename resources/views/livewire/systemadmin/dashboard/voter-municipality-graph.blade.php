@@ -1,8 +1,13 @@
 <div>
-    <div class="w-full bg-white rounded-lg shadow  mb-4 dark:bg-gray-800 p-4 md:p-6">
+    <div class="w-full bg-white border border-dashed dark:bg-gray-800 p-4 md:p-6">
         <div class="flex justify-between mb-5">
             <div class="grid gap-4 grid-cols-2">
                 <h3 class="text-md font-bold text-gray-600 dark:text-white mb-2">Bar Graph Showing Total Voters for Each Municipality</h3>
+            </div>
+            <div>
+                <a href="{{ route('system-admin-barangay-voter-analytics') }}" class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                    View Details
+                </a>
             </div>
         </div>
         <div id="voter-bar-graph"></div>

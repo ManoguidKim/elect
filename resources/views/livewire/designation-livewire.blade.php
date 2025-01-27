@@ -1,17 +1,4 @@
 <div>
-
-    @if(session()->has('message'))
-    <div class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-        </svg>
-        <span class="sr-only">Info</span>
-        <div>
-            <span class="font-medium">{{ session('message') }}!</span>
-        </div>
-    </div>
-    @endif
-
     <nav class="flex mb-4" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3 rtl:space-x-reverse">
             <li class="inline-flex items-center">
@@ -27,38 +14,35 @@
                     <svg class="w-3 h-3 text-gray-400 mx-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                     </svg>
-                    <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Designation Management</a>
+                    <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Designation</a>
                 </div>
             </li>
         </ol>
     </nav>
 
-    <div class="grid grid-cols-4 gap-4 mb-4">
-        <div class="w-full">
-            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Designation</label>
-            <input type="text" name="designation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2" placeholder="Enter designation" wire:model="designation" />
-            @error('designation')
-            <span class="text-red-400">Designation required</span>
-            @enderror
+    @if(session()->has('message'))
+    <div class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <span class="sr-only">Info</span>
+        <div>
+            <span class="font-medium">{{ session('message') }}!</span>
         </div>
+    </div>
+    @endif
+
+    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">List of all designation</h3>
+    <div class="p-4 mb-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+        <p class="text-sm text-gray-500 dark:text-gray-400">This page allows you to explore and view detailed information for all barangays, providing a comprehensive overview of each area within the region.</p>
     </div>
 
     <div class="relative overflow-x-auto sm:rounded-lg p-1">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
             <div>
-                @if(!$isEdit)
-                <button class="inline-flex items-center text-gray-500 bg-blue-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click.prevent="createDesignation">
+                <a href="{{ route('system-admin-voter-designation-create') }}" class="inline-flex items-center text-gray-500 bg-blue-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                     Create New Designation
-                </button>
-                @else
-                <button class="inline-flex items-center text-gray-500 bg-green-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click.prevent="editDesignation">
-                    Update Designation Details
-                </button>
-
-                <button class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click.prevent="resetField">
-                    Cancel Edit
-                </button>
-                @endif
+                </a>
             </div>
             <label for="table-search" class="sr-only">Search</label>
             <div class="relative">
@@ -73,7 +57,7 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-md">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3" width="10%">
                         #
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -88,15 +72,15 @@
                 @foreach($designations as $designation)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="px-6 py-2">{{ $loop->iteration }}</td>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white uppercase">{{ $designation->name }}</th>
+                    <td scope="row" class="px-6 py-2">{{ $designation->name }}</td>
                     <td class="px-6 py-2">
 
-                        <button class="inline-flex items-center text-gray-500 bg-green-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="editDesignation({{ $designation->id }})">
-                            {{ $loop->iteration }} : Edit
-                        </button>
+                        <a href="{{ route('system-admin-voter-designation-edit', $designation->id) }}" class="inline-flex items-center text-gray-500 bg-green-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            Edit
+                        </a>
 
                         <button class=" inline-flex items-center text-gray-500 bg-red-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="deleteDesignation({{ $designation->id }})" wire:confirm="Are you sure you want to delete?">
-                            {{ $loop->iteration }} : Delete
+                            Delete
                         </button>
 
                     </td>

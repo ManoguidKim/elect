@@ -1,5 +1,5 @@
 <div>
-    <div class="w-full bg-white rounded-lg shadow mb-4 dark:bg-gray-800 p-4 md:p-6">
+    <div class="w-full bg-white border border-dashed dark:bg-gray-800 p-4 md:p-6">
         <div class="flex justify-between mb-5">
             <div class="grid gap-4">
                 <h3 class="text-md font-bold text-gray-600 dark:text-white mb-2">A chart showing Ally, Opponent, and Undecided voter counts per municipality.</h3>

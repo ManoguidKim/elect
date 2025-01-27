@@ -24,11 +24,8 @@ class OrganizationLivewire extends Component
     {
 
         $organizations = Organization::where('municipality_id', auth()->user()->municipality_id)
-            ->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('description', 'like', '%' . $this->search . '%'); // You can add more fields for search
-            })
-            ->limit(100);
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->get();
 
         return view('livewire.organization-livewire', ['organizations' => $organizations]);
     }

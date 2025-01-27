@@ -39,8 +39,7 @@
                     <a href="https://flowbite.com" class="flex ms-2 md:me-24">
                         <!-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" /> -->
                         <span
-                            class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white text-gray-600">Election
-                            Support Monitoring System</span>
+                            class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white text-gray-600">E-Elect</span>
                     </a>
                 </div>
                 <div class="flex items-center">

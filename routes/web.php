@@ -3,6 +3,7 @@
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\CaptureImageController;
 use App\Http\Controllers\CardLayoutController;
+use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\DynamicController;
 use App\Http\Controllers\LogsController;
@@ -241,6 +242,18 @@ Route::middleware([
 
     Route::get('system/admin/voter/organization/edit/{organization}', [OrganizationController::class, 'edit'])->name('system-admin-voter-organization-edit');
     Route::post('system/admin/voter/organization/edit/{organization}', [OrganizationController::class, 'update'])->name('system-admin-voter-organization-edit');
+
+
+
+
+    // Designation
+    Route::get('system/admin/voter/designation/create', [DesignationController::class, 'create'])->name('system-admin-voter-designation-create');
+    Route::post('system/admin/voter/designation/create', [DesignationController::class, 'store'])->name('system-admin-voter-designation-create');
+
+    Route::get('system/admin/voter/designation/edit/{designation}', [DesignationController::class, 'edit'])->name('system-admin-voter-designation-edit');
+    Route::post('system/admin/voter/designation/edit/{designation}', [DesignationController::class, 'update'])->name('system-admin-voter-designation-edit');
+
+
 
 
     // User

@@ -63,12 +63,6 @@
                     <th scope="col" class="px-6 py-3">
                         Barangay
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        Latitude (Optional)
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Longtitude (Optional)
-                    </th>
                     <th scope="col" class="px-6 py-3" width="15%">
                         Action
                     </th>
@@ -80,16 +74,13 @@
                     <td class="px-6 py-2" width="10%">{{ $loop->iteration }}</th>
                     <td class="px-6 py-4 font-medium text-gray-900 dark:text-white uppercase">{{ $barangay->name }}</td>
 
-                    <td class="px-6 py-2" width="20%">{{ $barangay->lat }}</th>
-                    <td class="px-6 py-2" width="20%">{{ $barangay->long }}</th>
-
                     <td class="px-6 py-2">
 
-                        <a href="{{ route('admin-barangay-edit', $barangay->id) }}" class="inline-flex items-center text-gray-500 bg-green-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                        <a href="{{ route('admin-barangay-edit', $barangay->id) }}" class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                             Edit
                         </a>
 
-                        <button class="inline-flex items-center text-gray-500 bg-red-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="deleteBarangay({{ $barangay->id }})" wire:confirm="Are you sure you want to delete?">
+                        <button class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" wire:click="deleteBarangay({{ $barangay->id }})" wire:confirm="Are you sure you want to delete?">
                             Delete
                         </button>
 
